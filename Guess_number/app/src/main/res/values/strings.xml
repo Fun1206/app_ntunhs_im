@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">guess_number</string>
+    <string name="guess_number">Guess number</string>
+    <string name="name">Name</string>
+    <string name="reset">RESET</string>
+    <string name="guess">GUESS</string>
+    <string name="textview">TextView</string>
 </resources>

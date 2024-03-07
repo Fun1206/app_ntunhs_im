@@ -2,17 +2,22 @@ package com.example.guess_number
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
+    val TAG:String = MainActivity::class.java.simpleName
+    private lateinit var handler: Handler
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        handler = Handler(Looper.getMainLooper())
         val textView1 = findViewById<TextView>(R.id.textView1)//
         val edit_num = findViewById<EditText>(R.id.edit_num)
         val button1 = findViewById<Button>(R.id.button1)//guess
@@ -24,6 +29,11 @@ class MainActivity : AppCompatActivity() {
         var max:Int=100
 
         var secert: Int = Random().nextInt(100)+1//隨機1-100取一數
+
+        /*handler.postDelayed({
+            Toast.makeText(this,"5秒後的操作執行了",Toast.LENGTH_SHORT).show()
+        },5000)
+        */
 
         /*button1.setOnClickListener{
             textView1.text=name.text
@@ -49,6 +59,15 @@ class MainActivity : AppCompatActivity() {
             else
             {
                 textView1.text="恭喜猜對了 !!!"
+                Toast.makeText(this,"~ 6秒後重置遊戲 ~",Toast.LENGTH_SHORT).show()
+                handler.postDelayed({
+                    edit_num.text.clear()
+                    min=1
+                    max=100
+                    secert = Random().nextInt(100)+1//隨機1-100取一數
+                    //textView1.text=secert.toString()
+                    textView2.text=min.toString()+"-"+max.toString()
+                },6000)
             }
 
         }
@@ -61,5 +80,10 @@ class MainActivity : AppCompatActivity() {
             textView2.text=min.toString()+"-"+max.toString()
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
     }
 }

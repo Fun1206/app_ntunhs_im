@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">猜數字遊戲</string>
+    <string name="guess_number">請輸入數字:</string>
+    <string name="name">Name</string>
+    <string name="reset">重置</string>
+    <string name="guess">猜</string>
+    <string name="textview">TextView</string>
+</resources>
