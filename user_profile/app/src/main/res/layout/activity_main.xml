@@ -16,15 +16,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="帳號:"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName2"
+            android:id="@+id/acc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -38,15 +38,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="密碼:"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPassword"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -60,16 +60,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="姓名:"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Name"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -82,15 +82,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="電子信箱:"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress"
+            android:id="@+id/mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -104,15 +104,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="電話:"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/editTextPhone"
+            android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="phone"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -125,14 +125,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="生日:"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/editTextDate"
+            android:id="@+id/Birthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="date" />
+            android:inputType="date"
+            android:text=" 日期:　YYYY-MM-DD " />
     </LinearLayout>
 
     <LinearLayout
@@ -149,7 +150,8 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="請勾選您的性別:" />
+                android:text="請勾選您的性別:"
+                android:textSize="20sp" />
 
             <RadioButton
                 android:id="@+id/male"
@@ -169,7 +171,8 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="請選擇您的居住縣市:" />
+                android:text="請選擇您的居住縣市:"
+                android:textSize="20sp" />
 
             <Spinner
                 android:id="@+id/spn_city"
@@ -181,22 +184,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="請勾選您的興趣(可複選):"
-                android:textSize="14sp" />
+                android:textSize="20sp" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/listen_to_music"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="聽音樂" />
 
             <CheckBox
-                android:id="@+id/checkBox2"
+                android:id="@+id/draw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="繪畫" />
 
             <CheckBox
-                android:id="@+id/checkBox3"
+                android:id="@+id/play_basketball"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="打籃球" />
