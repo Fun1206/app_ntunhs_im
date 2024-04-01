@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Game2_PSR">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layoutDescription="@xml/activity_main_scene"
+        tools:context=".MainActivity" >
+
+        <TextView
+            android:id="@+id/GAME"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textSize="50sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutDescription="@xml/activity_main_scene"
+            tools:context=".MainActivity">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/P1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/computer"
+                    android:textSize="25sp" />
+
+                <ImageView
+                    android:id="@+id/P1_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="55dp"
+                    android:layout_marginTop="80dp"
+                    android:background="#00000000"
+                    android:scaleType="fitCenter"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/txtcom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wait_player"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/P2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/player"
+                    android:textSize="25sp" />
+
+                <ImageButton
+                    android:id="@+id/Scissors"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="50dp"
+                    android:background="#00000000"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/scissor" />
+
+                <ImageButton
+                    android:id="@+id/Rock"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="50dp"
+                    android:background="#00000000"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/rock" />
+
+                <ImageButton
+                    android:id="@+id/Paper"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="50dp"
+                    android:background="#00000000"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/paper" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/play_choose_a_button"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/back2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
