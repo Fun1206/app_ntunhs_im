@@ -1,4 +1,4 @@
-package com.example.team8
+package com.example.consultationclinicapp
 
 import org.junit.Test
 

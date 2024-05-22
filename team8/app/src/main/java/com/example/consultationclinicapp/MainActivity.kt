@@ -1,4 +1,4 @@
-package com.example.team8
+package com.example.consultationclinicapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
