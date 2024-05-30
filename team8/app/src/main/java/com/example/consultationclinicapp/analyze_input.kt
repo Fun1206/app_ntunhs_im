@@ -52,7 +52,7 @@ class analyze_input : AppCompatActivity() {
                 } else {
                     // 根據選中的RadioButton跳轉到不同的Activity
                     val bodyintent = if (male.isChecked) {
-                        Intent(this, frontbody_male::class.java)
+                        Intent(this, MainActivity2::class.java)
                     } else {
                         Intent(this, frontbody_female::class.java)
                     }
