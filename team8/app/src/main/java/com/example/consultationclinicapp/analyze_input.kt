@@ -50,8 +50,12 @@ class analyze_input : AppCompatActivity() {
                         .setPositiveButton("確定", null)
                         .show()
                 } else {
-                    // 繼續執行下一步
-                    val bodyintent = Intent(this, frontbody_male::class.java)
+                    // 根據選中的RadioButton跳轉到不同的Activity
+                    val bodyintent = if (male.isChecked) {
+                        Intent(this, frontbody_male::class.java)
+                    } else {
+                        Intent(this, frontbody_female::class.java)
+                    }
                     startActivity(bodyintent)
                 }
 
