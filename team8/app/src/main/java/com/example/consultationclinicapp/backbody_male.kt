@@ -26,14 +26,19 @@ class backbody_male : AppCompatActivity() {
             startActivity(frontmaleintent)
         }
 
-        back_btn.setOnClickListener {
+        /*back_btn.setOnClickListener {
             var backmaleintent = Intent(this,backbody_male::class.java)
             startActivity(backmaleintent)
-        }
+        }*/
 
         pervious.setOnClickListener {
             var inputintent = Intent(this,analyze_input::class.java)
             startActivity(inputintent)
+        }
+        next.setOnClickListener {
+            var inputsymintent = Intent(this,symptom_input::class.java)
+            inputsymintent.putExtra("pervious_record", "male")
+            startActivity(inputsymintent)
         }
     }
 }

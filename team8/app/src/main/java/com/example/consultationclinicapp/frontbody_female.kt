@@ -21,10 +21,10 @@ class frontbody_female : AppCompatActivity() {
             startActivity(homeintent)
         }
 
-        frontf_btn.setOnClickListener {
+        /*frontf_btn.setOnClickListener {
             var frontfemaleintent = Intent(this,frontbody_female::class.java)
             startActivity(frontfemaleintent)
-        }
+        }*/
 
         backf_btn.setOnClickListener {
             var backfemaleintent = Intent(this,backbody_female::class.java)
@@ -34,6 +34,11 @@ class frontbody_female : AppCompatActivity() {
         pervious.setOnClickListener {
             var inputintent = Intent(this,analyze_input::class.java)
             startActivity(inputintent)
+        }
+        next.setOnClickListener {
+            var inputsymintent = Intent(this,symptom_input::class.java)
+            inputsymintent.putExtra("pervious_record", "female")
+            startActivity(inputsymintent)
         }
     }
 }

@@ -26,14 +26,20 @@ class backbody_female : AppCompatActivity() {
             startActivity(frontfemaleintent)
         }
 
-        backf_btn.setOnClickListener {
+        /*backf_btn.setOnClickListener {
             var backfemaleintent = Intent(this,backbody_female::class.java)
             startActivity(backfemaleintent)
-        }
+        }*/
 
         pervious.setOnClickListener {
             var inputintent = Intent(this,analyze_input::class.java)
             startActivity(inputintent)
         }
+        next.setOnClickListener {
+            var inputsymintent = Intent(this,symptom_input::class.java)
+            inputsymintent.putExtra("pervious_record", "female")
+            startActivity(inputsymintent)
+        }
+
     }
 }
