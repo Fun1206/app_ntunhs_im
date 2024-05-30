@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Consultation Clinic APP</string>
+    <string-array name="age">
+        <item>0~9歲</item>
+        <item>10~24歲</item>
+        <item>25~49歲</item>
+        <item>50~64</item>
+        <item>65歲以上</item>
+    </string-array>
+    >
 </resources>
