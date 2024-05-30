@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 
-class frontbody_male : AppCompatActivity() {
+class backbody_male : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_frontbody_male)
+        setContentView(R.layout.activity_backbody_male)
 
         val home = findViewById<ImageButton>(R.id.home_btn)
         val front_btn = findViewById<Button>(R.id.front_btn)
@@ -21,7 +21,6 @@ class frontbody_male : AppCompatActivity() {
             var homeintent = Intent(this,MainActivity::class.java)
             startActivity(homeintent)
         }
-
         front_btn.setOnClickListener {
             var frontmaleintent = Intent(this,frontbody_male::class.java)
             startActivity(frontmaleintent)

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#7E5151"
-    tools:context=".frontbody_male">
+    tools:context=".backbody_male">
 
     <ImageButton
         android:id="@+id/home_btn"
@@ -58,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="@color/darkgray"
+                android:backgroundTint="@color/gray"
                 android:text="正面"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -68,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/darkgray"
                 android:text="反面"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -85,7 +85,7 @@
                 android:orientation="vertical">
 
                 <CheckBox
-                    android:id="@+id/head_1"
+                    android:id="@+id/head_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -95,7 +95,7 @@
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/neak_1"
+                    android:id="@+id/neak_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -105,37 +105,37 @@
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/chest"
+                    android:id="@+id/back"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="胸部"
+                    android:text="背部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/abdomen"
+                    android:id="@+id/waist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="腹部"
+                    android:text="腰部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/lower_abdomen"
+                    android:id="@+id/Buttocks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="下腹部"
+                    android:text="臀部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/legs_1"
+                    android:id="@+id/legs_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -145,7 +145,7 @@
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/fooots_1"
+                    android:id="@+id/fooots_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -159,7 +159,7 @@
                 android:id="@+id/male_front"
                 android:layout_width="243dp"
                 android:layout_height="550dp"
-                app:srcCompat="@drawable/male_front" />
+                app:srcCompat="@drawable/male_back" />
 
             <LinearLayout
                 android:layout_width="100dp"
@@ -177,7 +177,7 @@
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/hand_1"
+                    android:id="@+id/hand_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -186,7 +186,7 @@
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/skin_1"
+                    android:id="@+id/skin_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -195,7 +195,7 @@
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/psychology_1"
+                    android:id="@+id/psychology_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -237,5 +237,6 @@
         </LinearLayout>
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
