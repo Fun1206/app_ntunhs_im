@@ -156,7 +156,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/male_front"
+                android:id="@+id/male_back"
                 android:layout_width="243dp"
                 android:layout_height="550dp"
                 app:srcCompat="@drawable/male_back" />

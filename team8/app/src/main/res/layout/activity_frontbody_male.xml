@@ -168,7 +168,7 @@
                 android:orientation="vertical">
 
                 <CheckBox
-                    android:id="@+id/whole_body_2"
+                    android:id="@+id/whole_body_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
