@@ -12,6 +12,7 @@ import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
+import androidx.appcompat.app.AlertDialog
 
 
 class analyze_input : AppCompatActivity() {
@@ -38,8 +39,22 @@ class analyze_input : AppCompatActivity() {
             }
 
             next.setOnClickListener {
-            var bodyintent = Intent(this,frontbody_male::class.java)
-            startActivity(bodyintent)
+
+                val selectedGenderId = gender.checkedRadioButtonId
+
+                if (selectedGenderId == -1) {
+                    // 顯示提示框
+                    AlertDialog.Builder(this)
+                        .setTitle("提示")
+                        .setMessage("請選擇性別選項")
+                        .setPositiveButton("確定", null)
+                        .show()
+                } else {
+                    // 繼續執行下一步
+                    val bodyintent = Intent(this, frontbody_male::class.java)
+                    startActivity(bodyintent)
+                }
+
             }
 
         // 設置 Spinner 的選項選擇監聽器
