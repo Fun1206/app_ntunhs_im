@@ -32,9 +32,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView4"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="52dp"
         android:gravity="center"
         android:text="分析結果"
         android:textSize="24sp"
@@ -46,244 +46,186 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/previous3_btn"
+        app:layout_constraintBottom_toTopOf="@+id/googlemap_btn"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:id="@+id/checkboxContainer"
+            android:id="@+id/textviewContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="5dp">
 
-            <CheckBox
-                android:id="@+id/checkBox4"
+            <!-- 首個 CardView -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_margin="8dp">
 
-            <CheckBox
-                android:id="@+id/checkBox5"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titleTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/darkblue"
+                        android:padding="8dp"
+                        android:text="推薦科別"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/contentTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="這裡是從資料庫拉取的分析結果..."
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <!-- 第二個 CardView -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_margin="8dp">
 
-            <CheckBox
-                android:id="@+id/checkBox6"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titleTextView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/darkblue"
+                        android:padding="8dp"
+                        android:text="推薦科別"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/contentTextView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="這裡是從資料庫拉取的分析結果..."
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 第三個 CardView -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_margin="8dp">
 
-            <CheckBox
-                android:id="@+id/checkBox7"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titleTextView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/darkblue"
+                        android:padding="8dp"
+                        android:text="推薦科別"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/contentTextView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="這裡是從資料庫拉取的分析結果..."
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 第四個 CardView -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_margin="8dp">
 
-            <CheckBox
-                android:id="@+id/checkBox8"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titleTextView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/darkblue"
+                        android:padding="8dp"
+                        android:text="推薦科別"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/contentTextView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="這裡是從資料庫拉取的分析結果..."
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 第五個 CardView -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_margin="8dp">
 
-            <CheckBox
-                android:id="@+id/checkBox9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <CheckBox
-                android:id="@+id/checkBox10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/titleTextView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/darkblue"
+                        android:padding="8dp"
+                        android:text="推薦科別"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
 
-            <CheckBox
-                android:id="@+id/checkBox11"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox12"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox13"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox14"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox16"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox17"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox18"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox19"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox20"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox21"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox22"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBox23"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/checkbox_background"
-                android:text="CheckBox"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
+                    <TextView
+                        android:id="@+id/contentTextView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="這裡是從資料庫拉取的分析結果..."
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
 
     <Button
-        android:id="@+id/previous3_btn"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
+        android:id="@+id/previous5_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/button_background"
         android:text="上一步"
         android:textColor="@color/white"
@@ -295,15 +237,15 @@
 
     <Button
         android:id="@+id/googlemap_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="271dp"
+        android:layout_height="48dp"
+        android:background="@drawable/button_background"
         android:text="連結至GOOGLE MAP"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/white"
-        android:background="@drawable/button_background"
-        app:layout_constraintStart_toEndOf="@+id/previous3_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/previous5_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
