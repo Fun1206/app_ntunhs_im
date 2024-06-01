@@ -47,7 +47,7 @@ class TESTActivity : AppCompatActivity() {
         // 測試getBodyPartsByTypeAndPosition
         val bodyParts = dbHelper.getBodyPartsByTypeAndPosition(0, 0)
         val bodyPartsResults = bodyParts.joinToString(separator = "\n") { part ->
-            "ID: ${part.partId}, Name: ${part.partName}"
+            "ID: ${part.BodyPartID}, Name: ${part.PartName}"
         }
 
         // 測試getDetailPartsByPartId
@@ -56,6 +56,6 @@ class TESTActivity : AppCompatActivity() {
             "Detail ID: ${part.detailPartId}, Name: ${part.detailPartName}"
         }
 
-        resultsTextView.text = "Body Parts:\n$bodyPartsResults\n\nDetail Parts:\n$detailPartsResults"
+        //resultsTextView.text = "Body Parts:\n$bodyPartsResults\n\nDetail Parts:\n$detailPartsResults"
     }
 }

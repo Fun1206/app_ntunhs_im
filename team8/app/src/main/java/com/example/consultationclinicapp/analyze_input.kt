@@ -21,6 +21,7 @@ class analyze_input : AppCompatActivity() {
         setContentView(R.layout.activity_analyze_input)
 
         val home = findViewById<ImageButton>(R.id.home_btn)
+        val next = findViewById<Button>(R.id.next_btn)
         val gender = findViewById<RadioGroup>(R.id.gender)
         val male = findViewById<RadioButton>(R.id.male)
         val female = findViewById<RadioButton>(R.id.female)
@@ -30,9 +31,6 @@ class analyze_input : AppCompatActivity() {
 
         adapter.setDropDownViewResource(R.layout.spinner_item)
         spn_age.adapter = adapter
-
-        val next = findViewById<Button>(R.id.next_btn)
-
             home.setOnClickListener {
             var homeintent = Intent(this,MainActivity::class.java)
             startActivity(homeintent)
@@ -52,7 +50,7 @@ class analyze_input : AppCompatActivity() {
                 } else {
                     // 根據選中的RadioButton跳轉到不同的Activity
                     val bodyintent = if (male.isChecked) {
-                        Intent(this, frontbody_male::class.java)
+                        Intent(this, Symptoms_input::class.java)
                     } else {
                         Intent(this, frontbody_female::class.java)
                     }
