@@ -16,22 +16,31 @@ class TESTActivity : AppCompatActivity() {
         dbHelper = SQLiteOpenHelper(this)
         resultsTextView = findViewById(R.id.tvResults)
         results2TextView = findViewById(R.id.tvResults2)
-
+        val selectedParts = intent.getStringArrayListExtra("selected_parts")
+        val frontback = intent.getIntExtra("front_back", -1)
         val btnTest = findViewById<Button>(R.id.btnTest)
 
         btnTest.setOnClickListener {
-            testDatabaseFunctions()
+            //testDatabaseFunctions()
+
+            if (selectedParts != null && selectedParts.size > 1 && frontback != -1) {
+                var bodyType = dbHelper.getBodyTypeByPartNameAndPosition(selectedParts[0], frontback)
+
+                var detailPartNames = bodyType?.let { it1 ->
+                    dbHelper.getDetailPartsByPartId(it1).map { it.detailPartName }.toTypedArray()
+                } ?: arrayOf<String>()
+                resultsTextView.text = detailPartNames[6].toString()
+
+                bodyType = dbHelper.getBodyTypeByPartNameAndPosition(selectedParts[1], frontback)
+                detailPartNames = bodyType?.let { it1 ->
+                    dbHelper.getDetailPartsByPartId(it1).map { it.detailPartName }.toTypedArray()
+                } ?: arrayOf<String>()
+                results2TextView.text = detailPartNames[0].toString()
+            }
+
         }
 
-        val selectedParts = intent.getStringArrayListExtra("selected_parts")
-        val frontback = intent.getIntExtra("front_back", -1)
-
-        if (selectedParts != null && selectedParts.size > 1 && frontback != -1) {
-            val bodyType = dbHelper.getBodyTypeByPartNameAndPosition(selectedParts[1], frontback)
-            results2TextView.text = bodyType.toString()
-        }
-
-        resultsTextView.text = selectedParts?.joinToString(separator = "\n")
+       // resultsTextView.text = selectedParts?.joinToString(separator = "\n")
     }
 
     private fun testDatabaseFunctions() {
