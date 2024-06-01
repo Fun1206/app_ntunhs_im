@@ -57,9 +57,7 @@ class SubParts_input : AppCompatActivity() {
         next.setOnClickListener {
             var homeintent = Intent(this,MainActivity::class.java)
             startActivity(homeintent)
-
         }
-
     }
 
     fun displayBodyParts(bodyParts: List<DetailPart>, partName: String, container: LinearLayout) {
