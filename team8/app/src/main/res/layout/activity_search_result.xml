@@ -74,8 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="16dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/111"/> <!-- 替換為實際的藥物圖片 -->
+                android:scaleType="centerCrop"/>
+            <!--android:src="@drawable/111"--> <!-- 替換為實際的藥物圖片 -->
 
             <!-- Drug Description -->
             <androidx.cardview.widget.CardView

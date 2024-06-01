@@ -43,12 +43,12 @@ class SubParts_input : AppCompatActivity() {
             }
         }
 
-        setupListeners(home, previous, gender, next)
+        setupListeners(home, previous, gender, next, container)
     }
 
     private fun addSelectedPartsBySide(prefs: SharedPreferences, side: Int, selectedParts: MutableList<String>) {
         val partsMap = if (side == 0) {
-            mapOf("back" to "Back", "waist" to "Waist", "buttocks" to "Buttocks")
+            mapOf("back" to "背部", "waist" to "腰部", "buttocks" to "臀部")
         } else {
             mapOf("chest" to "胸部", "abdomen" to "腹部", "lower_abdomen" to "下腹部")
         }
@@ -57,12 +57,29 @@ class SubParts_input : AppCompatActivity() {
         }
     }
 
-    private fun setupListeners(home: ImageButton, previous: Button, gender: String?, next: Button) {
+    private fun setupListeners(home: ImageButton, previous: Button, gender: String?, next: Button, container: LinearLayout) {
         home.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
         previous.setOnClickListener {
             startActivity(Intent(this, if (gender == "male") frontbody_male::class.java else frontbody_female::class.java))
         }
-        next.setOnClickListener { startActivity(Intent(this, Symptoms_input::class.java)) }
+        next.setOnClickListener {
+            // 從LinearLayout容器中檢索所有已勾選的CheckBox的標籤 (即SubPartID)
+            val selectedSubPartIDs = mutableListOf<Int>()
+            val selectedSubParts = mutableListOf<String>()
+            for (i in 0 until container.childCount) {
+                val view = container.getChildAt(i)
+                if (view is CheckBox && view.isChecked) {
+                    selectedSubPartIDs.add(view.tag as Int)  // 收集標籤中的唯一ID
+                    selectedSubParts.add(view.text.toString())  // 收集文本
+                }
+            }
+
+            // 傳遞選中的部分名稱和對應的唯一標識符到下一個Activity
+            val intent = Intent(this, Symptoms_input::class.java)
+            intent.putStringArrayListExtra("selectedSubParts", ArrayList(selectedSubParts))
+            intent.putIntegerArrayListExtra("selectedSubPartIDs", ArrayList(selectedSubPartIDs))  // 新增行: 傳遞ID列表
+            startActivity(intent)
+        }
     }
 
     private fun displayOptions(bodyParts: List<SubPart>, partName: String, container: LinearLayout) {
@@ -86,6 +103,8 @@ class SubParts_input : AppCompatActivity() {
                 layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                     setMargins(0, 8.toPx(), 0, 8.toPx())
                 }
+                // 設置標籤來儲存SubPartID
+                setTag(part.SubPartID)
             })
         }
     }

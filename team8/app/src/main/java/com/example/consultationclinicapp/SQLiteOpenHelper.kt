@@ -571,7 +571,7 @@ class SQLiteOpenHelper(
             SubPartSymptom(84,20),
             SubPartSymptom(110,106)
         )
-        val sql4 = "INSERT INTO SymptomDepartments (SubPartID, SymptomID) VALUES (?, ?)"
+        val sql4 = "INSERT INTO SubPartSymptoms (SubPartID, SymptomID) VALUES (?, ?)"
         val stmt4 = db.compileStatement(sql4)
         for (subpartsymptom in defaultData4) {
             stmt4.bindLong(1, subpartsymptom.SubPartID.toLong())
@@ -722,6 +722,32 @@ class SQLiteOpenHelper(
         db.close()
         return SubParts
     }
+    /**
+     * 根據部位細節ID查詢相關的症狀完整資料。
+     * @param subPartId 部位細節的ID。
+     * @return 返回一個包含症狀完整資料的列表，每個元素包含症狀ID、症狀名稱及其英文名稱。
+     */
+    fun getSymptomsBySubPartId(subPartId: Int): List<Symptom> {
+        val symptoms = mutableListOf<Symptom>() // 儲存查詢到的症狀資訊
+        val db = this.readableDatabase // 獲取可讀的資料庫實例
+        val query = """
+        SELECT Symptoms.SymptomID, Symptoms.SymName, Symptoms.En_SymName
+        FROM SubPartSymptoms
+        JOIN Symptoms ON SubPartSymptoms.SymptomID = Symptoms.SymptomID
+        WHERE SubPartSymptoms.SubPartID = ?
+        """ // SQL查詢語句
+        val cursor = db.rawQuery(query, arrayOf(subPartId.toString())) // 執行查詢
+        while (cursor.moveToNext()) {
+            val symptomId = cursor.getInt(cursor.getColumnIndexOrThrow("SymptomID"))
+            val symName = cursor.getString(cursor.getColumnIndexOrThrow("SymName"))
+            val enSymName = cursor.getString(cursor.getColumnIndexOrThrow("En_SymName"))
+            symptoms.add(Symptom(symptomId, symName, enSymName)) // 創建Symptom物件並添加到列表
+        }
+        cursor.close() // 關閉游標
+        db.close() // 關閉資料庫實例
+        return symptoms // 返回包含症狀資料的列表
+    }
+
 }
 
 data class BodyPart(
