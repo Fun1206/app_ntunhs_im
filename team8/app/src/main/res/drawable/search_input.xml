@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#FFFFFF"/> <!-- 背景色 -->
+    <solid android:color="@color/white"/> <!-- 背景色 -->
     <corners android:radius="10dp"/> <!-- 圓角半徑 -->
-    <stroke android:width="3dp" android:color="@color/darkgray"/> <!-- 框線顏色和寬度 -->
+    <stroke android:width="3dp" android:color="@color/darkgray2"/> <!-- 框線顏色和寬度 -->
 </shape>

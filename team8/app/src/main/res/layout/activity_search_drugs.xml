@@ -35,24 +35,28 @@
         android:id="@+id/search_field"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/search_input"
-        android:drawableRight="@drawable/search"
         android:drawablePadding="10dp"
-        android:hint="輸入藥物名稱"
+        android:hint="請輸入藥物名稱"
         android:padding="10dp"
         android:paddingRight="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_textView" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/search_field"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_field">
 
         <LinearLayout
             android:id="@+id/results_container"
@@ -61,7 +65,109 @@
             android:orientation="vertical"
             android:padding="16dp">
             <!-- 搜索結果將動態添加至此 -->
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="查詢結果顯示如下："
+                android:textSize="20dp"/>
+
+            <Button
+                android:id="@+id/button_example"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/search_btn_background"
+                android:text="藥物名稱"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+            <Button
+                android:id="@+id/button_example1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/search_btn_background"
+                android:text="藥物名稱"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+            <Button
+                android:id="@+id/button_example2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/search_btn_background"
+                android:text="藥物名稱"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+            <Button
+                android:id="@+id/button_example3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/search_btn_background"
+                android:text="藥物名稱"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+            <Button
+                android:id="@+id/button_example4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/search_btn_background"
+                android:text="藥物名稱"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+            <Button
+                android:id="@+id/button_example5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/search_btn_background"
+                android:text="藥物名稱"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+            <Button
+                android:id="@+id/button_example6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/search_btn_background"
+                android:text="藥物名稱"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+            <Button
+                android:id="@+id/button_example7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/search_btn_background"
+                android:text="藥物名稱"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+
         </LinearLayout>
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="211dp"
+        android:layout_height="223dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
