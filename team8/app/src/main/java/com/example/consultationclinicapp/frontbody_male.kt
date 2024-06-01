@@ -1,5 +1,6 @@
 package com.example.consultationclinicapp
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -43,9 +44,18 @@ class frontbody_male : AppCompatActivity() {
             startActivity(frontmaleintent)
         }*/
 
-        back_btn.setOnClickListener {
+        /*back_btn.setOnClickListener {
             var backmaleintent = Intent(this,backbody_male::class.java)
             startActivity(backmaleintent)
+        }*/
+
+        // 當按下 back_btn，傳遞共用的 CheckBox 狀態到 backbody_male
+        back_btn.setOnClickListener {
+            val intent = Intent(this, backbody_male::class.java)
+            checkBoxes.forEach { checkBox ->
+                intent.putExtra(checkBox.resources.getResourceEntryName(checkBox.id), checkBox.isChecked)
+            }
+            startActivity(intent)
         }
 
         pervious.setOnClickListener {
@@ -62,5 +72,25 @@ class frontbody_male : AppCompatActivity() {
             }
             startActivity(inputsymintent)
         }
+    }
+
+    // 儲存特有的 CheckBox 狀態到 SharedPreferences
+    override fun onPause() {
+        super.onPause()
+        val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putBoolean("chest", findViewById<CheckBox>(R.id.chest).isChecked)
+        editor.putBoolean("abdomen", findViewById<CheckBox>(R.id.abdomen).isChecked)
+        editor.putBoolean("lower_abdomen", findViewById<CheckBox>(R.id.lower_abdomen).isChecked)
+        editor.apply()
+    }
+
+    // 從 SharedPreferences 讀取特有的 CheckBox 狀態
+    override fun onResume() {
+        super.onResume()
+        val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        findViewById<CheckBox>(R.id.chest).isChecked = prefs.getBoolean("chest", false)
+        findViewById<CheckBox>(R.id.abdomen).isChecked = prefs.getBoolean("abdomen", false)
+        findViewById<CheckBox>(R.id.lower_abdomen).isChecked = prefs.getBoolean("lower_abdomen", false)
     }
 }

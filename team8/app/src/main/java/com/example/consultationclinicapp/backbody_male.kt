@@ -1,5 +1,6 @@
 package com.example.consultationclinicapp
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -33,6 +34,11 @@ class backbody_male : AppCompatActivity() {
             findViewById(R.id.psychology_2)
         )
 
+        checkBoxes.forEach { checkBox ->
+            val idName = checkBox.resources.getResourceEntryName(checkBox.id)
+            checkBox.isChecked = intent.getBooleanExtra(idName, false)
+        }
+
         home.setOnClickListener {
             var homeintent = Intent(this,MainActivity::class.java)
             startActivity(homeintent)
@@ -61,4 +67,24 @@ class backbody_male : AppCompatActivity() {
             startActivity(inputsymintent)
         }
     }
+    // 儲存特有的 CheckBox 狀態到 SharedPreferences
+    override fun onPause() {
+        super.onPause()
+        val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putBoolean("back", findViewById<CheckBox>(R.id.back).isChecked)
+        editor.putBoolean("waist", findViewById<CheckBox>(R.id.waist).isChecked)
+        editor.putBoolean("buttocks", findViewById<CheckBox>(R.id.Buttocks).isChecked)
+        editor.apply()
+    }
+
+    // 從 SharedPreferences 讀取特有的 CheckBox 狀態
+    override fun onResume() {
+        super.onResume()
+        val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        findViewById<CheckBox>(R.id.back).isChecked = prefs.getBoolean("back", false)
+        findViewById<CheckBox>(R.id.waist).isChecked = prefs.getBoolean("waist", false)
+        findViewById<CheckBox>(R.id.Buttocks).isChecked = prefs.getBoolean("buttocks", false)
+    }
+
 }
