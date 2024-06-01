@@ -24,7 +24,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/research_btn"
+        android:id="@+id/search_btn"
         android:layout_width="192dp"
         android:layout_height="53dp"
         android:text="查詢藥物"
@@ -41,20 +41,21 @@
         android:id="@+id/imageView2"
         android:layout_width="61dp"
         android:layout_height="52dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/research_btn"
-        app:layout_constraintHorizontal_bias="0.752"
+        app:layout_constraintEnd_toStartOf="@+id/search_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.191"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/research" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="61dp"
         android:layout_height="52dp"
+        android:layout_marginStart="68dp"
         app:layout_constraintEnd_toStartOf="@+id/analyze_btn"
-        app:layout_constraintHorizontal_bias="0.752"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4"
         app:srcCompat="@drawable/analyze" />

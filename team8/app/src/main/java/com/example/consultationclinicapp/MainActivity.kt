@@ -11,12 +11,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val analyze_btn = findViewById<Button>(R.id.analyze_btn)
-        val research_btn = findViewById<Button>(R.id.research_btn)
+        val search_btn = findViewById<Button>(R.id.search_btn)
 
 
         analyze_btn.setOnClickListener {
             var analyzeInputintent = Intent(this,analyze_input::class.java)
             startActivity(analyzeInputintent)
+        }
+
+        search_btn.setOnClickListener {
+            var searchintent = Intent(this,search_drugs::class.java)
+            startActivity(searchintent)
         }
     }
 
