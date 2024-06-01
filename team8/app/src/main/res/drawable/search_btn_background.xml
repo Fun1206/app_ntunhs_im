@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:state_pressed="true">
         <shape>
-                <solid android:color="@color/lightyellow"/> <!-- 按下時的顏色 -->
+                <solid android:color="@color/lightblue"/> <!-- 按下時的顏色 -->
                 <corners android:radius="16dp"/>
                 <padding android:left="16dp" android:top="8dp" android:right="16dp" android:bottom="8dp"/>
         </shape>
