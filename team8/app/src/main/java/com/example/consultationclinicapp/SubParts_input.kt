@@ -33,12 +33,12 @@ class SubParts_input : AppCompatActivity() {
 
         if (selectedParts != null && selectedParts.size >= 1 && side != -1) {
             for (part in selectedParts) {
-                val bodyType = dbHelper.getBodyTypeByPartNameAndPosition(part, side)
-                val subParts = bodyType?.let { it1 ->
-                    dbHelper.getDetailPartsByPartId(it1)
+                val BodyPartID = dbHelper.getBodyPartIDByPartNameAndPosition(part, side)
+                val subParts = BodyPartID?.let { it1 ->
+                    dbHelper.getSubPartsByPartId(it1)
                 }
                 if (subParts != null) {
-                    displayBodyParts(subParts, part, container)
+                    displayOptions(subParts, part, container)
                 }
             }
         }
@@ -62,7 +62,7 @@ class SubParts_input : AppCompatActivity() {
         }
     }
 
-    fun displayBodyParts(bodyParts: List<DetailPart>, partName: String, container: LinearLayout) {
+    fun displayOptions(bodyParts: List<SubPart>, partName: String, container: LinearLayout) {
         // 創建並設置 TextView
         val textView = TextView(this)
         textView.text = partName  // 設置顯示的部位
@@ -79,7 +79,7 @@ class SubParts_input : AppCompatActivity() {
 
         for (part in bodyParts) {
             val checkBox = CheckBox(this)
-            checkBox.text = part.detailPartName
+            checkBox.text = part.SubPartName
             checkBox.textSize = 20f // 設置文字大小
             checkBox.setTypeface(null, Typeface.BOLD) // 設置文字樣式為粗體
 
