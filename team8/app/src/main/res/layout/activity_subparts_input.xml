@@ -34,7 +34,7 @@
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="60dp"
             android:gravity="center"
             android:text="請點選細部部位(可多選)"
             android:textSize="24sp"
