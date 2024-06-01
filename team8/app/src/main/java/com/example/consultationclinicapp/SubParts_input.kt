@@ -55,8 +55,8 @@ class SubParts_input : AppCompatActivity() {
             startActivity(bodyintent)
         }
         next.setOnClickListener {
-            var homeintent = Intent(this,MainActivity::class.java)
-            startActivity(homeintent)
+            var Symintent = Intent(this,Symptoms_input::class.java)
+            startActivity(Symintent)
 
         }
 
