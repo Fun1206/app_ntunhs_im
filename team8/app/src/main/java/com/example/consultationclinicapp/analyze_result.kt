@@ -1,6 +1,7 @@
 package com.example.consultationclinicapp
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -24,8 +25,8 @@ class analyze_result : AppCompatActivity() {
             startActivity(symintent)
         }
         googlemap.setOnClickListener {
-            var symintent = Intent(this,Symptoms_input::class.java)
-            startActivity(symintent)
+            var googlemapintent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps"))
+            startActivity(googlemapintent)
         }
     }
 }
