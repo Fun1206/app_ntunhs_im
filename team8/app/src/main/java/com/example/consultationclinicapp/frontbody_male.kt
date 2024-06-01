@@ -63,8 +63,8 @@ class frontbody_male : AppCompatActivity() {
             val selectedParts = checkBoxes.filter { it.isChecked }.map { it.text.toString() }
             val inputsymintent = Intent(this, SubParts_input::class.java).apply {
                 putExtra("selected_parts", ArrayList(selectedParts))
-                putExtra("front_back", 0) // front=0
-                putExtra("pervious_record", "male")
+                putExtra("side", 0) // front=0
+                putExtra("gender", "male")
             }
             startActivity(inputsymintent)
         }

@@ -143,7 +143,7 @@ class SQLiteOpenHelper(
     // 用兩個條件bodyType和frontBack查詢BodyParts的資料表結果
     fun getBodyPartsByTypeAndPosition(bodyType: Int, frontBack: Int): List<BodyPart> {
         val db = this.readableDatabase
-        val selection = "body_type = ? AND front_back = ?"
+        val selection = "Gender = ? AND Side = ?"
         val selectionArgs = arrayOf(bodyType.toString(), frontBack.toString())
         val cursor = db.query(
             "BodyParts",      // 表名
@@ -158,9 +158,9 @@ class SQLiteOpenHelper(
         val parts= mutableListOf<BodyPart>()
         with(cursor) {
             while (moveToNext()) {
-                val partId = getInt(getColumnIndexOrThrow("part_id"))
-                val partName = getString(getColumnIndexOrThrow("part_name"))
-                val en_partName = getString(getColumnIndexOrThrow("en_part_name"))
+                val partId = getInt(getColumnIndexOrThrow("BodyPartID"))
+                val partName = getString(getColumnIndexOrThrow("PartName "))
+                val en_partName = getString(getColumnIndexOrThrow("En_PartName "))
                 parts.add(BodyPart(partId, bodyType, partName, en_partName, frontBack))
             }
             close()
@@ -173,11 +173,11 @@ class SQLiteOpenHelper(
     fun getBodyTypeByPartNameAndPosition(partName: String, frontBack: Int): Int? {
         val db = this.readableDatabase
         // 更新選擇條件以包括 part_name 或 en_part_name
-        val selection = "(part_name = ? OR en_part_name = ?) AND front_back = ?"
+        val selection = "(PartName = ? OR En_PartName = ?) AND Side = ?"
         val selectionArgs = arrayOf(partName, partName, frontBack.toString())
         val cursor = db.query(
             "BodyParts",
-            arrayOf("part_id"),  // 只需查詢 part_id 欄位
+            arrayOf("BodyPartID"),  // 只需查詢 part_id 欄位
             selection,
             selectionArgs,
             null,
@@ -187,7 +187,7 @@ class SQLiteOpenHelper(
 
         var partid: Int? = null
         if (cursor.moveToFirst()) {  // 如果查詢到數據，則讀取第一條記錄的 part_id
-            partid = cursor.getInt(cursor.getColumnIndexOrThrow("part_id"))
+            partid = cursor.getInt(cursor.getColumnIndexOrThrow("BodyPartID"))
         }
         cursor.close()
         db.close()
