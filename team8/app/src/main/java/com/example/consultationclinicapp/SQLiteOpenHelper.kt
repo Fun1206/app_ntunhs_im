@@ -10,8 +10,8 @@ class SQLiteOpenHelper(
 ): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         private const val DATABASE_NAME = "example.db"
-        // 資料庫版本，當資料筆資料增加需要調整版本號，目前為版本=3
-        private const val DATABASE_VERSION = 3
+        // 資料庫版本，當資料筆資料增加需要調整版本號，目前為版本=4
+        private const val DATABASE_VERSION = 4
 
         // 建立 BodyParts(身體部位) 表的 SQL 語句
         private const val CREATE_TABLE_BODYPARTS = """
@@ -34,11 +34,54 @@ class SQLiteOpenHelper(
                 FOREIGN KEY(BodyPartID) REFERENCES BodyParts(BodyPartID)
             )
         """
+
+        // 建立 Symptoms(症狀) 表的 SQL 語句
+        private const val CREATE_TABLE_SYMPTOMS = """
+            CREATE TABLE IF NOT EXISTS Symptoms (
+                SymptomID INTEGER PRIMARY KEY,
+                SymName TEXT,
+                En_SymName TEXT
+            )
+        """
+
+        // 建立 SubPartSymptoms(細節部位與症狀關聯) 表的 SQL 語句
+        private const val CREATE_TABLE_SUBPARTSYMPTOMS = """
+            CREATE TABLE IF NOT EXISTS SubPartSymptoms (
+                SubPartID INTEGER,
+                SymptomID INTEGER,
+                FOREIGN KEY(SubPartID) REFERENCES SubParts(SubPartID),
+                FOREIGN KEY(SymptomID) REFERENCES Symptoms(SymptomID)
+            )
+        """
+
+        // 建立 SubPartSymptoms(細節部位與症狀關聯) 表的 SQL 語句
+        private const val CREATE_TABLE_DEPARTMENTS = """
+            CREATE TABLE IF NOT EXISTS Departments (
+                DepartmentID INTEGER PRIMARY KEY,
+                DpmName TEXT,
+                En_DpmName TEXT,
+                Description TEXT,
+                En_Description TEXT
+            )
+        """
+        // 建立 SymptomDepartments(症狀與科別關聯) 表的 SQL 語句
+        private const val CREATE_TABLE_SYMPTOMDEPARTMENTS = """
+            CREATE TABLE IF NOT EXISTS SymptomDepartments (
+                DepartmentID INTEGER,
+                SymptomID INTEGER,
+                FOREIGN KEY(SubPartID) REFERENCES SubParts(SubPartID),
+                FOREIGN KEY(SymptomID) REFERENCES Symptoms(SymptomID)
+            )
+        """
     }
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_TABLE_BODYPARTS)
         db.execSQL(CREATE_TABLE_SUBPARTS)
+        db.execSQL(CREATE_TABLE_SYMPTOMS)
+        db.execSQL(CREATE_TABLE_SUBPARTSYMPTOMS)
+        db.execSQL(CREATE_TABLE_DEPARTMENTS)
+
         // 插入預設資料
         insertDefaultData(db)
     }
@@ -48,6 +91,9 @@ class SQLiteOpenHelper(
             db.execSQL("DROP TABLE IF EXISTS BodyParts")
             db.execSQL("DROP TABLE IF EXISTS DetailParts")
             db.execSQL("DROP TABLE IF EXISTS SubParts")
+            db.execSQL("DROP TABLE IF EXISTS Symptoms")
+            db.execSQL("DROP TABLE IF EXISTS SubPartSymptoms")
+            db.execSQL("DROP TABLE IF EXISTS Departments")
             onCreate(db)
         }
     }
@@ -277,9 +323,10 @@ class SQLiteOpenHelper(
     // 用兩個條件PartName和Gender查詢BodyParts的資料表結果
     fun getBodyPartIDByPartNameAndGender(PartName: String, Gender: Int): Int? {
         val db = this.readableDatabase
-        // 更新選擇條件以包括 PartName 和 Gender
-        val selection = "PartName = ? AND Gender = ?"
-        val selectionArgs = arrayOf(PartName, Gender.toString())
+
+        // 更新選擇條件以包括 part_name 或 en_part_name 和 Gender
+        val selection = "(PartName = ? OR En_PartName = ?) AND Gender = ?"
+        val selectionArgs = arrayOf(PartName, PartName, Gender.toString())
         val cursor = db.query(
             "BodyParts",
             arrayOf("BodyPartID"),  // 只需查詢 BodyPartID 欄位
