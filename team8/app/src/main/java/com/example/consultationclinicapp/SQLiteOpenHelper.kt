@@ -274,15 +274,15 @@ class SQLiteOpenHelper(
         return parts
     }
 
-    // 用兩個條件PartName和Side查詢BodyParts的資料表結果
-    fun getBodyPartIDByPartNameAndPosition(PartName: String, Side: Int): Int? {
+    // 用兩個條件PartName和Gender查詢BodyParts的資料表結果
+    fun getBodyPartIDByPartNameAndGender(PartName: String, Gender: Int): Int? {
         val db = this.readableDatabase
-        // 更新選擇條件以包括 part_name 或 en_part_name
-        val selection = "(PartName = ? OR En_PartName = ?) AND Side = ?"
-        val selectionArgs = arrayOf(PartName, PartName, Side.toString())
+        // 更新選擇條件以包括 PartName 和 Gender
+        val selection = "PartName = ? AND Gender = ?"
+        val selectionArgs = arrayOf(PartName, Gender.toString())
         val cursor = db.query(
             "BodyParts",
-            arrayOf("BodyPartID"),  // 只需查詢 part_id 欄位
+            arrayOf("BodyPartID"),  // 只需查詢 BodyPartID 欄位
             selection,
             selectionArgs,
             null,
@@ -291,7 +291,7 @@ class SQLiteOpenHelper(
         )
 
         var BodyPartID: Int? = null
-        if (cursor.moveToFirst()) {  // 如果查詢到數據，則讀取第一條記錄的 part_id
+        if (cursor.moveToFirst()) {  // 如果查詢到數據，則讀取第一條記錄的 BodyPartID
             BodyPartID = cursor.getInt(cursor.getColumnIndexOrThrow("BodyPartID"))
         }
         cursor.close()
