@@ -23,19 +23,7 @@ class TESTActivity : AppCompatActivity() {
         btnTest.setOnClickListener {
             //testDatabaseFunctions()
 
-            if (selectedParts != null && selectedParts.size > 1 && frontback != -1) {
-                var bodyType = dbHelper.getBodyTypeByPartNameAndPosition(selectedParts[0], frontback)
 
-                var detailPartNames = bodyType?.let { it1 ->
-                    dbHelper.getDetailPartsByPartId(it1).map { it.detailPartName }.toTypedArray()
-                } ?: arrayOf<String>()
-                resultsTextView.text = detailPartNames[6].toString()
-
-                bodyType = dbHelper.getBodyTypeByPartNameAndPosition(selectedParts[1], frontback)
-                detailPartNames = bodyType?.let { it1 ->
-                    dbHelper.getDetailPartsByPartId(it1).map { it.detailPartName }.toTypedArray()
-                } ?: arrayOf<String>()
-                results2TextView.text = detailPartNames[0].toString()
             }
 
         }
@@ -43,19 +31,4 @@ class TESTActivity : AppCompatActivity() {
        // resultsTextView.text = selectedParts?.joinToString(separator = "\n")
     }
 
-    private fun testDatabaseFunctions() {
-        // 測試getBodyPartsByTypeAndPosition
-        val bodyParts = dbHelper.getBodyPartsByTypeAndPosition(0, 0)
-        val bodyPartsResults = bodyParts.joinToString(separator = "\n") { part ->
-            "ID: ${part.BodyPartID}, Name: ${part.PartName}"
-        }
 
-        // 測試getDetailPartsByPartId
-        val detailParts = dbHelper.getDetailPartsByPartId(1)
-        val detailPartsResults = detailParts.joinToString(separator = "\n") { part ->
-            "Detail ID: ${part.detailPartId}, Name: ${part.detailPartName}"
-        }
-
-        //resultsTextView.text = "Body Parts:\n$bodyPartsResults\n\nDetail Parts:\n$detailPartsResults"
-    }
-}
