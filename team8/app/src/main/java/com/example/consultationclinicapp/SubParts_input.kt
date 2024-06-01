@@ -26,19 +26,19 @@ class SubParts_input : AppCompatActivity() {
         container.removeAllViews()
 
         // 接收傳遞的數據
-        val receivedValue = intent.getStringExtra("pervious_record")
+        val gender = intent.getStringExtra("gender")
 
         val selectedParts = intent.getStringArrayListExtra("selected_parts")
-        val frontback = intent.getIntExtra("front_back", -1)
+        val side = intent.getIntExtra("side", -1)
 
-        if (selectedParts != null && selectedParts.size >= 1 && frontback != -1) {
+        if (selectedParts != null && selectedParts.size >= 1 && side != -1) {
             for (part in selectedParts) {
-                val bodyType = dbHelper.getBodyTypeByPartNameAndPosition(part, frontback)
-                val detailParts = bodyType?.let { it1 ->
+                val bodyType = dbHelper.getBodyTypeByPartNameAndPosition(part, side)
+                val subParts = bodyType?.let { it1 ->
                     dbHelper.getDetailPartsByPartId(it1)
                 }
-                if (detailParts != null) {
-                    displayBodyParts(detailParts, part, container)
+                if (subParts != null) {
+                    displayBodyParts(subParts, part, container)
                 }
             }
         }
@@ -47,7 +47,7 @@ class SubParts_input : AppCompatActivity() {
             startActivity(homeintent)
         }
         pervious.setOnClickListener {
-            val bodyintent = if (receivedValue == "male") {
+            val bodyintent = if (gender == "male") {
                 Intent(this,frontbody_male::class.java)
             }else{
                 Intent(this,frontbody_female::class.java)
