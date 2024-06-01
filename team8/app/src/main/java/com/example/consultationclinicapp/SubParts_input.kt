@@ -12,11 +12,11 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 
-class symptom_input : AppCompatActivity() {
+class SubParts_input : AppCompatActivity() {
     private lateinit var dbHelper: SQLiteOpenHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_symptom_input)
+        setContentView(R.layout.activity_subparts_input)
         dbHelper = SQLiteOpenHelper(this)
         val home = findViewById<ImageButton>(R.id.home_btn)
         val pervious = findViewById<Button>(R.id.previous3_btn)

@@ -61,7 +61,7 @@ class frontbody_male : AppCompatActivity() {
 
         next.setOnClickListener {
             val selectedParts = checkBoxes.filter { it.isChecked }.map { it.text.toString() }
-            val inputsymintent = Intent(this, symptom_input::class.java).apply {
+            val inputsymintent = Intent(this, SubParts_input::class.java).apply {
                 putExtra("selected_parts", ArrayList(selectedParts))
                 putExtra("front_back", 0) // front=0
                 putExtra("pervious_record", "male")

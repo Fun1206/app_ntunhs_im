@@ -36,7 +36,7 @@ class frontbody_female : AppCompatActivity() {
             startActivity(inputintent)
         }
         next.setOnClickListener {
-            var inputsymintent = Intent(this,symptom_input::class.java)
+            var inputsymintent = Intent(this,SubParts_input::class.java)
             inputsymintent.putExtra("pervious_record", "female")
             startActivity(inputsymintent)
         }

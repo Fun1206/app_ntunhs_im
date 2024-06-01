@@ -16,7 +16,7 @@
             android:name=".TESTActivity"
             android:exported="false" />
         <activity
-            android:name=".symptom_input"
+            android:name=".SubParts_input"
             android:exported="false" />
         <activity
             android:name=".MainActivity2"
