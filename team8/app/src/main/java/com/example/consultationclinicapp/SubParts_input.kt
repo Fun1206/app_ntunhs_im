@@ -1,5 +1,6 @@
 package com.example.consultationclinicapp
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Typeface
@@ -11,6 +12,7 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 
 class SubParts_input : AppCompatActivity() {
     private lateinit var dbHelper: SQLiteOpenHelper
@@ -24,6 +26,8 @@ class SubParts_input : AppCompatActivity() {
 
         val container = findViewById<LinearLayout>(R.id.checkboxContainer)
         container.removeAllViews()
+        // 讀取 SharedPreferences
+        val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
 
         // 接收傳遞的數據
         val gender = intent.getStringExtra("gender")
@@ -31,7 +35,22 @@ class SubParts_input : AppCompatActivity() {
         val selectedParts = intent.getStringArrayListExtra("selected_parts")
         val side = intent.getIntExtra("side", -1)
 
-        if (selectedParts != null && selectedParts.size >= 1 && side != -1) {
+        // 根據 side 檢查並添加相關部位
+        if (side == 0) {
+            if (prefs.getBoolean("back", false) || prefs.getBoolean("waist", false) || prefs.getBoolean("buttocks", false)) {
+                if (prefs.getBoolean("back", false)) selectedParts.add("Back")
+                if (prefs.getBoolean("waist", false)) selectedParts.add("Waist")
+                if (prefs.getBoolean("buttocks", false)) selectedParts.add("Buttocks")
+            }
+        } else if (side == 1) {
+            if (prefs.getBoolean("chest", false) || prefs.getBoolean("abdomen", false) || prefs.getBoolean("lower_abdomen", false)) {
+                if (prefs.getBoolean("chest", false)) selectedParts.add("Chest")
+                if (prefs.getBoolean("abdomen", false)) selectedParts.add("Abdomen")
+                if (prefs.getBoolean("lower_abdomen", false)) selectedParts.add("Lower Abdomen")
+            }
+        }
+
+        if (selectedParts.isNotEmpty()) {
             for (part in selectedParts) {
                 val BodyPartID = dbHelper.getBodyPartIDByPartNameAndPosition(part, side)
                 val subParts = BodyPartID?.let { it1 ->

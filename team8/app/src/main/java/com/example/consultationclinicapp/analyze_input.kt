@@ -1,6 +1,7 @@
 package com.example.consultationclinicapp
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -29,6 +30,9 @@ class analyze_input : AppCompatActivity() {
         val adapter = ArrayAdapter.createFromResource(this, R.array.age, R.layout.spinner_item)
         adapter.setDropDownViewResource(R.layout.spinner_item)
         spn_age.adapter = adapter
+
+        // 清除 SharedPreferences
+        clearPreferences()
 
         home.setOnClickListener {
             val homeIntent = Intent(this, MainActivity::class.java)
@@ -69,5 +73,10 @@ class analyze_input : AppCompatActivity() {
                 // 這裡可以處理沒有選擇任何項目的情況
             }
         }
+    }
+
+    private fun clearPreferences() {
+        val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        prefs.edit().clear().apply()
     }
 }

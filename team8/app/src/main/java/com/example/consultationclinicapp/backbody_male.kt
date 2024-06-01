@@ -22,22 +22,17 @@ class backbody_male : AppCompatActivity() {
         // 初始化CheckBoxes
         val checkBoxes = listOf<CheckBox>(
             findViewById(R.id.head_2),
-            findViewById(R.id.neak_2),
+            findViewById(R.id.neck_2),
             findViewById(R.id.back),
             findViewById(R.id.waist),
             findViewById(R.id.Buttocks),
             findViewById(R.id.legs_2),
-            findViewById(R.id.fooots_2),
+            findViewById(R.id.feet_2),
             findViewById(R.id.whole_body_2),
             findViewById(R.id.hand_2),
             findViewById(R.id.skin_2),
             findViewById(R.id.psychology_2)
         )
-
-        checkBoxes.forEach { checkBox ->
-            val idName = checkBox.resources.getResourceEntryName(checkBox.id)
-            checkBox.isChecked = intent.getBooleanExtra(idName, false)
-        }
 
         home.setOnClickListener {
             var homeintent = Intent(this,MainActivity::class.java)
@@ -75,6 +70,15 @@ class backbody_male : AppCompatActivity() {
         editor.putBoolean("back", findViewById<CheckBox>(R.id.back).isChecked)
         editor.putBoolean("waist", findViewById<CheckBox>(R.id.waist).isChecked)
         editor.putBoolean("buttocks", findViewById<CheckBox>(R.id.Buttocks).isChecked)
+        // 保存共用的 CheckBox 狀態
+        editor.putBoolean("head", findViewById<CheckBox>(R.id.head_2).isChecked)
+        editor.putBoolean("neck", findViewById<CheckBox>(R.id.neck_2).isChecked)
+        editor.putBoolean("legs", findViewById<CheckBox>(R.id.legs_2).isChecked)
+        editor.putBoolean("feet", findViewById<CheckBox>(R.id.feet_2).isChecked)
+        editor.putBoolean("whole_body", findViewById<CheckBox>(R.id.whole_body_2).isChecked)
+        editor.putBoolean("hands", findViewById<CheckBox>(R.id.hand_2).isChecked)
+        editor.putBoolean("skin", findViewById<CheckBox>(R.id.skin_2).isChecked)
+        editor.putBoolean("psychology", findViewById<CheckBox>(R.id.psychology_2).isChecked)
         editor.apply()
     }
 
@@ -85,6 +89,16 @@ class backbody_male : AppCompatActivity() {
         findViewById<CheckBox>(R.id.back).isChecked = prefs.getBoolean("back", false)
         findViewById<CheckBox>(R.id.waist).isChecked = prefs.getBoolean("waist", false)
         findViewById<CheckBox>(R.id.Buttocks).isChecked = prefs.getBoolean("buttocks", false)
+
+        // 恢復共用的 CheckBox 狀態
+        findViewById<CheckBox>(R.id.head_2).isChecked = prefs.getBoolean("head", false)
+        findViewById<CheckBox>(R.id.neck_2).isChecked = prefs.getBoolean("neck", false)
+        findViewById<CheckBox>(R.id.legs_2).isChecked = prefs.getBoolean("legs", false)
+        findViewById<CheckBox>(R.id.feet_2).isChecked = prefs.getBoolean("feet", false)
+        findViewById<CheckBox>(R.id.whole_body_2).isChecked = prefs.getBoolean("whole_body", false)
+        findViewById<CheckBox>(R.id.hand_2).isChecked = prefs.getBoolean("hands", false)
+        findViewById<CheckBox>(R.id.skin_2).isChecked = prefs.getBoolean("skin", false)
+        findViewById<CheckBox>(R.id.psychology_2).isChecked = prefs.getBoolean("psychology", false)
     }
 
 }
