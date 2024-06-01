@@ -95,7 +95,7 @@
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/neak_f2"
+                    android:id="@+id/neck_f2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -145,7 +145,7 @@
                     android:textStyle="bold" />
 
                 <CheckBox
-                    android:id="@+id/fooots_f2"
+                    android:id="@+id/feet_f2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
