@@ -1,5 +1,6 @@
 package com.example.consultationclinicapp
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -55,13 +56,28 @@ class frontbody_male : AppCompatActivity() {
         }
 
         next.setOnClickListener {
-            val selectedParts = checkBoxes.filter { it.isChecked }.map { it.text.toString() }
-            val inputsymintent = Intent(this, SubParts_input::class.java).apply {
-                putExtra("selected_parts", ArrayList(selectedParts))
-                putExtra("side", 0) // front=0
-                putExtra("gender", "male")
+            val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+            val anyPrefsTrue = prefs.all.entries.any { it.value as? Boolean ?: false }
+            val anyCheckBoxChecked = checkBoxes.any { it.isChecked }
+
+            if (anyPrefsTrue or anyCheckBoxChecked) {
+                val selectedParts = checkBoxes.filter { it.isChecked }.map { it.text.toString() }
+                val inputsymintent = Intent(this, SubParts_input::class.java).apply {
+                    putExtra("selected_parts", ArrayList(selectedParts))
+                    putExtra("side", 0) // front=0
+                    putExtra("gender", "male")
+                }
+                startActivity(inputsymintent)
+            } else {
+                // 沒有任何選項被選擇，顯示 AlertDialog
+                AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("請點選至少一種部位")
+                    .setPositiveButton("確定") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .show()
             }
-            startActivity(inputsymintent)
         }
     }
 

@@ -156,18 +156,16 @@
         </LinearLayout>
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="211dp"
-        android:layout_height="223dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/search"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="46dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="120dp"
+        android:background="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:srcCompat="@drawable/search_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

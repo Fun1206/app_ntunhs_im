@@ -298,14 +298,15 @@
         android:id="@+id/previous4_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_background"
+        android:enabled="false"
         android:text="上一步"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/white"
-        android:background="@drawable/button_background"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/next4_btn"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/next4_btn"

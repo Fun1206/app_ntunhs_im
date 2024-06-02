@@ -1,5 +1,6 @@
 package com.example.consultationclinicapp
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -74,11 +75,20 @@ class SubParts_input : AppCompatActivity() {
                 }
             }
 
-            // 傳遞選中的部分名稱和對應的唯一標識符到下一個Activity
-            val intent = Intent(this, Symptoms_input::class.java)
-            intent.putStringArrayListExtra("selectedSubParts", ArrayList(selectedSubParts))
-            intent.putIntegerArrayListExtra("selectedSubPartIDs", ArrayList(selectedSubPartIDs))  // 新增行: 傳遞ID列表
-            startActivity(intent)
+            if (selectedSubPartIDs.isEmpty()) {
+                // 沒有選中任何CheckBox，顯示AlertDialog
+                AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("請點選至少一種細節部位")
+                    .setPositiveButton("確定") { dialog, _ -> dialog.dismiss() }
+                    .show()
+            } else {
+                // 有選中的CheckBox，進行頁面跳轉
+                val intent = Intent(this, Symptoms_input::class.java)
+                intent.putStringArrayListExtra("selectedSubParts", ArrayList(selectedSubParts))
+                intent.putIntegerArrayListExtra("selectedSubPartIDs", ArrayList(selectedSubPartIDs))
+                startActivity(intent)
+            }
         }
     }
 

@@ -12,6 +12,7 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.children
 
 class Symptoms_input : AppCompatActivity() {
     private lateinit var dbHelper: SQLiteOpenHelper
@@ -20,12 +21,32 @@ class Symptoms_input : AppCompatActivity() {
         setContentView(R.layout.activity_symptoms_input)
         dbHelper = SQLiteOpenHelper(this)
         val home = findViewById<ImageButton>(R.id.home_btn)
-        val pervious = findViewById<Button>(R.id.previous4_btn)
+        val previous = findViewById<Button>(R.id.previous4_btn)
         val next = findViewById<Button>(R.id.next4_btn)
         val container = findViewById<LinearLayout>(R.id.checkboxContainer)
         container.removeAllViews()
 
         val log = findViewById<Button>(R.id.log_btn)/*查看已選擇症狀*/
+        log.setOnClickListener {
+            val checkBoxList = container.children.filterIsInstance<CheckBox>()
+            val selectedSymptoms = checkBoxList.filter { it.isChecked }.joinToString(separator = "\n") {
+                "${it.text}, SymptomID:${it.tag}"  // 現在會顯示格式為 "id:?, 症狀名稱"
+            }
+
+            if (selectedSymptoms.isNotEmpty()) {
+                AlertDialog.Builder(this)
+                    .setTitle("已選擇的症狀")
+                    .setMessage(selectedSymptoms)
+                    .setPositiveButton("確定") { dialog, _ -> dialog.dismiss() }
+                    .show()
+            } else {
+                AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("沒有選擇任何症狀")
+                    .setPositiveButton("確定") { dialog, _ -> dialog.dismiss() }
+                    .show()
+            }
+        }
         // 獲取從上一個Activity傳來的數據
         val selectedSubParts = intent.getStringArrayListExtra("selectedSubParts")
         val selectedSubPartIDs = intent.getIntegerArrayListExtra("selectedSubPartIDs")
@@ -39,30 +60,65 @@ class Symptoms_input : AppCompatActivity() {
         }
 
         // 顯示對話框
-        AlertDialog.Builder(this)
-            .setTitle("選擇的部位與症狀資訊")
-            .setMessage(displayText.toString())
-            .setPositiveButton("確定") { dialog, _ -> dialog.dismiss() }
-            .show()
+        showAlert("選擇的部位與症狀資訊", displayText.toString())
+
         // 動態生成checkBOX
         selectedSubPartIDs?.forEachIndexed { index, id ->
             val SubParts = selectedSubParts?.get(index)
             SubParts?.let { displaySymptoms(dbHelper.getSymptomsBySubPartId(id), it, container) }
         }
+        setupButtons(home, previous, next, log, container)
+    }
+
+    private fun setupButtons(home: ImageButton, previous: Button, next: Button, log: Button, container: LinearLayout) {
+        log.setOnClickListener {
+            val selectedSymptoms = container.children.filterIsInstance<CheckBox>()
+                .filter { it.isChecked }
+                .joinToString(separator = "\n") {
+                    "${it.text}, SymptomID:${it.tag}"
+                }
+
+            if (selectedSymptoms.isNotEmpty()) {
+                showAlert("已選擇的症狀", selectedSymptoms)
+            } else {
+                showAlert("提示", "沒有選擇任何症狀")
+            }
+        }
 
         home.setOnClickListener {
-            var homeintent = Intent(this,MainActivity::class.java)
-            startActivity(homeintent)
+            startActivity(Intent(this, MainActivity::class.java))
         }
-        pervious.setOnClickListener {
-            var subintent = Intent(this,SubParts_input::class.java)
-            startActivity(subintent)
-        }
+
+        //previous.setOnClickListener {
+        //    startActivity(Intent(this, if (intent.getStringExtra("gender") == "male") frontbody_male::class.java else frontbody_female::class.java))
+        //}
+
         next.setOnClickListener {
-            var resultintent = Intent(this,analyze_result::class.java)
-            startActivity(resultintent)
+            val checkedTags = mutableListOf<Int>()
+            container.children.filterIsInstance<CheckBox>().forEach { checkBox ->
+                if (checkBox.isChecked) {
+                    checkedTags.add(checkBox.tag as Int)
+                }
+            }
+
+            if (checkedTags.isNotEmpty()) {
+                val nextIntent = Intent(this, analyze_result::class.java)
+                nextIntent.putIntegerArrayListExtra("selectedSymptomIDs", ArrayList(checkedTags))
+                startActivity(nextIntent)
+            } else {
+                showAlert("提示", "請選擇至少一種症狀")
+            }
         }
     }
+
+    private fun showAlert(title: String, message: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("確定") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
     private fun displaySymptoms(symptoms: List<Symptom>, SubPartName: String, container: LinearLayout) {
         val textView = TextView(this).apply {
             text = SubPartName
@@ -74,17 +130,31 @@ class Symptoms_input : AppCompatActivity() {
             }
         }
         container.addView(textView)
-        symptoms.forEach { symptom ->
-            container.addView(CheckBox(this).apply {
-                text = symptom.SymName  // 使用症狀的名稱作為CheckBox的文本
+        if (symptoms.isEmpty()) {
+            // 如果沒有症狀，則添加一個TextView顯示"查無症狀"
+            val noSymptomsText = TextView(this).apply {
+                text = "查無症狀"
                 textSize = 20f
-                setTypeface(null, Typeface.BOLD)
-                setBackgroundResource(R.drawable.checkbox_background)
+                setTypeface(null, Typeface.ITALIC)
+                gravity = Gravity.CENTER
                 layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                     setMargins(0, 8.toPx(), 0, 8.toPx())
                 }
-                setTag(symptom.SymptomID)  // 將症狀的ID設置為CheckBox的標籤
-            })
+            }
+            container.addView(noSymptomsText)
+        } else {
+            symptoms.forEach { symptom ->
+                container.addView(CheckBox(this).apply {
+                    text = symptom.SymName  // 使用症狀的名稱作為CheckBox的文本
+                    textSize = 20f
+                    setTypeface(null, Typeface.BOLD)
+                    setBackgroundResource(R.drawable.checkbox_background)
+                    layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                        setMargins(0, 8.toPx(), 0, 8.toPx())
+                    }
+                    tag = symptom.SymptomID  // 將症狀的ID設為CheckBox的標籤
+                })
+            }
         }
     }
 

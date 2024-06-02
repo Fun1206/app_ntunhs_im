@@ -228,6 +228,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/button_background"
         android:text="上一步"
+        android:enabled="false"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
