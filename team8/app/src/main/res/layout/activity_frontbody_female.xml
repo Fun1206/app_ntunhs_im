@@ -90,6 +90,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="頭部"
+                    android:tag="23"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -100,6 +101,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="頸部"
+                    android:tag="24"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -110,6 +112,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="胸部"
+                    android:tag="25"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -120,6 +123,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="腹部"
+                    android:tag="26"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -130,6 +134,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="下腹部"
+                    android:tag="27"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -140,6 +145,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="腿部"
+                    android:tag="32"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -150,6 +156,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="足部"
+                    android:tag="33"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -172,6 +179,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="全身"
+                    android:tag="28"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -181,6 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="手部"
+                    android:tag="31"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -190,6 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="皮膚"
+                    android:tag="29"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -199,6 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="心理"
+                    android:tag="30"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
