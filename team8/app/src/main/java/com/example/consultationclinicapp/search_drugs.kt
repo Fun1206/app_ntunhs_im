@@ -19,7 +19,7 @@ class search_drugs : AppCompatActivity() {
             startActivity(homeIntent)
         }
         search.setOnClickListener {
-            
+
         }
     }
 }
