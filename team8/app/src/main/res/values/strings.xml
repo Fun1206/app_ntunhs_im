@@ -7,5 +7,11 @@
         <item>50~64</item>
         <item>65歲以上</item>
     </string-array>
-    >
+    <string-array name="age_en">
+        <item>0-9 years</item>
+        <item>10-24 years</item>
+        <item>25-49 years</item>
+        <item>50-64 years</item>
+        <item>65 years and above</item>
+    </string-array>
 </resources>

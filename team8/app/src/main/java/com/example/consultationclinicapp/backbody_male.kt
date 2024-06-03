@@ -8,73 +8,147 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
+import android.widget.TextView
 
 class backbody_male : AppCompatActivity() {
+    private lateinit var dbHelper: SQLiteOpenHelper
+    private val PREFS_NAME = "language_prefs"
+    private val KEY_LANGUAGE = "language_key"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_backbody_male)
+        dbHelper = SQLiteOpenHelper(this)
 
         val home = findViewById<ImageButton>(R.id.home_btn)
-        val front_btn = findViewById<Button>(R.id.front_btn)
-        val back_btn = findViewById<Button>(R.id.back_btn)
-        val pervious = findViewById<Button>(R.id.previous_btn)
-        val next = findViewById<Button>(R.id.next2_btn)
+        val frontBtn = findViewById<Button>(R.id.front_btn)
+        val backBtn = findViewById<Button>(R.id.back_btn)
+        val previousBtn = findViewById<Button>(R.id.previous_btn)
+        val nextBtn = findViewById<Button>(R.id.next2_btn)
+        val titleTextView = findViewById<TextView>(R.id.title_textView)
+        val selectTextView = findViewById<TextView>(R.id.textView)
 
         // 初始化CheckBoxes
-        val checkBoxes = listOf<CheckBox>(
-            findViewById(R.id.head_2),
-            findViewById(R.id.neck_2),
-            findViewById(R.id.back),
-            findViewById(R.id.waist),
-            findViewById(R.id.Buttocks),
-            findViewById(R.id.legs_2),
-            findViewById(R.id.feet_2),
-            findViewById(R.id.whole_body_2),
-            findViewById(R.id.hand_2),
-            findViewById(R.id.skin_2),
-            findViewById(R.id.psychology_2)
+        val checkBoxes = listOf(
+            findViewById<CheckBox>(R.id.head_2),
+            findViewById<CheckBox>(R.id.neck_2),
+            findViewById<CheckBox>(R.id.back),
+            findViewById<CheckBox>(R.id.waist),
+            findViewById<CheckBox>(R.id.Buttocks),
+            findViewById<CheckBox>(R.id.legs_2),
+            findViewById<CheckBox>(R.id.feet_2),
+            findViewById<CheckBox>(R.id.whole_body_2),
+            findViewById<CheckBox>(R.id.hand_2),
+            findViewById<CheckBox>(R.id.skin_2),
+            findViewById<CheckBox>(R.id.psychology_2)
         )
 
+        val checkBoxKeyMap = mapOf(
+            R.id.head_2 to "head",
+            R.id.neck_2 to "neck",
+            R.id.back to "back",
+            R.id.waist to "waist",
+            R.id.Buttocks to "Buttocks",
+            R.id.legs_2 to "legs",
+            R.id.feet_2 to "feet",
+            R.id.whole_body_2 to "whole_body",
+            R.id.hand_2 to "hand",
+            R.id.skin_2 to "skin",
+            R.id.psychology_2 to "psychology"
+        )
+
+        // 獲取 SharedPreferences
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val isEnglish = sharedPreferences.getBoolean(KEY_LANGUAGE, false)
+
+        // 根據值更新UI
+        updateUI(isEnglish, titleTextView, selectTextView, frontBtn, backBtn, previousBtn, nextBtn, checkBoxes)
+
+        // 設置每個 CheckBox 的監聽器
+        checkBoxes.forEach { checkBox ->
+            val key = checkBoxKeyMap[checkBox.id]
+            (checkBox as? CheckBox)?.setOnCheckedChangeListener { _, isChecked ->
+                if (key != null) {
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean(key, isChecked)
+                    editor.apply() // 立即提交更新
+                }
+            }
+        }
+
         home.setOnClickListener {
-            var homeintent = Intent(this,MainActivity::class.java)
-            startActivity(homeintent)
-        }
-        front_btn.setOnClickListener {
-            var frontmaleintent = Intent(this,frontbody_male::class.java)
-            startActivity(frontmaleintent)
+            val homeIntent = Intent(this, MainActivity::class.java)
+            startActivity(homeIntent)
         }
 
-        /*back_btn.setOnClickListener {
-            var backmaleintent = Intent(this,backbody_male::class.java)
-            startActivity(backmaleintent)
-        }*/
-
-        pervious.setOnClickListener {
-            var inputintent = Intent(this,analyze_input::class.java)
-            startActivity(inputintent)
+        frontBtn.setOnClickListener {
+            val frontMaleIntent = Intent(this, frontbody_male::class.java)
+            startActivity(frontMaleIntent)
         }
-        next.setOnClickListener {
+
+        previousBtn.setOnClickListener {
+            val inputIntent = Intent(this, analyze_input::class.java)
+            startActivity(inputIntent)
+        }
+
+        nextBtn.setOnClickListener {
             val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
             val anyPrefsTrue = prefs.all.entries.any { it.value as? Boolean ?: false }
             val anyCheckBoxChecked = checkBoxes.any { it.isChecked }
 
-            if (anyPrefsTrue or anyCheckBoxChecked) {
-                val selectedParts = checkBoxes.filter { it.isChecked }.map { it.text.toString() }
-                val inputsymintent = Intent(this, SubParts_input::class.java).apply {
-                    putExtra("selected_parts", ArrayList(selectedParts))
-                    putExtra("side", 1) // back=1
+            if (anyPrefsTrue || anyCheckBoxChecked) {
+                val selectedTags = checkBoxes.filter { it.isChecked }.map { it.tag.toString() }
+                val inputSymIntent = Intent(this, SubParts_input::class.java).apply {
+                    putExtra("BodyPartID", ArrayList(selectedTags))
                     putExtra("gender", "male")
                 }
-                startActivity(inputsymintent)
+                startActivity(inputSymIntent)
             } else {
                 // 沒有任何選項被選擇，顯示 AlertDialog
                 AlertDialog.Builder(this)
-                    .setTitle("提示")
-                    .setMessage("請點選至少一種部位")
-                    .setPositiveButton("確定") { dialog, _ ->
+                    .setTitle(if (isEnglish) "Alert" else "提示")
+                    .setMessage(if (isEnglish) "Please select at least one part" else "請點選至少一種部位")
+                    .setPositiveButton(if (isEnglish) "OK" else "確定") { dialog, _ ->
                         dialog.dismiss()
                     }
                     .show()
+            }
+        }
+    }
+    private fun updateUI(
+        isEnglish: Boolean,
+        titleTextView: TextView,
+        selectTextView: TextView,
+        frontBtn: Button,
+        backBtn: Button,
+        previousBtn: Button,
+        nextBtn: Button,
+        checkBoxes: List<CheckBox>
+    ) {
+        if (isEnglish) {
+            titleTextView.text = "Symptom Analysis"
+            selectTextView.text = "Select the uncomfortable body part"
+            frontBtn.text = "Front"
+            backBtn.text = "Back"
+            previousBtn.text = "Previous"
+            nextBtn.text = "Next"
+            checkBoxes.forEachIndexed { index, checkBox ->
+                val resultList = dbHelper.getBodyPartsByBodyPartID(checkBox.tag.toString().toInt())
+                if (resultList.isNotEmpty()) {
+                    checkBox.text = resultList[0].En_PartName
+                }
+            }
+        } else {
+            titleTextView.text = "症狀分析"
+            selectTextView.text = "選擇不舒服的身體部位"
+            frontBtn.text = "前面"
+            backBtn.text = "後面"
+            previousBtn.text = "上一步"
+            nextBtn.text = "下一步"
+            checkBoxes.forEachIndexed { index, checkBox ->
+                val resultList = dbHelper.getBodyPartsByBodyPartID(checkBox.tag.toString().toInt())
+                if (resultList.isNotEmpty()) {
+                    checkBox.text = resultList[0].PartName
+                }
             }
         }
     }

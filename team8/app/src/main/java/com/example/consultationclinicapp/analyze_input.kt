@@ -1,21 +1,17 @@
 package com.example.consultationclinicapp
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 
 class analyze_input : AppCompatActivity() {
+    private val PREFS_NAME = "language_prefs"
+    private val KEY_LANGUAGE = "language_key"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analyze_input)
@@ -25,11 +21,17 @@ class analyze_input : AppCompatActivity() {
         val gender = findViewById<RadioGroup>(R.id.gender)
         val male = findViewById<RadioButton>(R.id.male)
         val female = findViewById<RadioButton>(R.id.female)
-
+        val titleTextView = findViewById<TextView>(R.id.title_textView)
+        val genderTxt = findViewById<TextView>(R.id.gender_txt)
+        val ageTxt = findViewById<TextView>(R.id.age)
         val spn_age = findViewById<Spinner>(R.id.age_spn)
-        val adapter = ArrayAdapter.createFromResource(this, R.array.age, R.layout.spinner_item)
-        adapter.setDropDownViewResource(R.layout.spinner_item)
-        spn_age.adapter = adapter
+
+        // 加載SharedPreferences中的設定值
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val isEnglish = sharedPreferences.getBoolean(KEY_LANGUAGE, false)
+
+        // 根據值更新UI
+        updateUI(isEnglish, titleTextView, genderTxt, ageTxt, male, female, next, spn_age)
 
         // 清除 SharedPreferences
         clearPreferences()
@@ -44,9 +46,9 @@ class analyze_input : AppCompatActivity() {
             if (selectedGenderId == -1) {
                 // 顯示提示框
                 AlertDialog.Builder(this)
-                    .setTitle("提示")
-                    .setMessage("請選擇性別選項")
-                    .setPositiveButton("確定", null)
+                    .setTitle(if (isEnglish) "Alert" else "提示")
+                    .setMessage(if (isEnglish) "Please select a gender option" else "請選擇性別選項")
+                    .setPositiveButton(if (isEnglish) "OK" else "確定", null)
                     .show()
             } else {
                 // 根據選中的RadioButton跳轉到不同的Activity
@@ -64,7 +66,7 @@ class analyze_input : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
                 if (view != null) {
                     // 獲取選擇的項目
-                    val age = resources.getStringArray(R.array.age)[pos]  // 獲取選中的年齡
+                    val age = resources.getStringArray(if (isEnglish) R.array.age_en else R.array.age)[pos]  // 獲取選中的年齡
                     // 可在此處添加更多基於選中年齡的操作
                 }
             }
@@ -78,5 +80,42 @@ class analyze_input : AppCompatActivity() {
     private fun clearPreferences() {
         val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         prefs.edit().clear().apply()
+    }
+
+    private fun updateUI(
+        isEnglish: Boolean,
+        titleTextView: TextView,
+        genderTxt: TextView,
+        ageTxt: TextView,
+        male: RadioButton,
+        female: RadioButton,
+        next: Button,
+        spn_age: Spinner
+    ) {
+        if (isEnglish) {
+            titleTextView.text = "Symptom Analysis"
+            genderTxt.text = "Gender:"
+            ageTxt.text = "Age:"
+            male.text = "Male"
+            female.text = "Female"
+            female.textSize = 16f
+            male.textSize = 16f
+            next.text = "Next"
+            val adapter = ArrayAdapter.createFromResource(this, R.array.age_en, R.layout.spinner_item)
+            adapter.setDropDownViewResource(R.layout.spinner_item)
+            spn_age.adapter = adapter
+        } else {
+            titleTextView.text = "症狀分析"
+            genderTxt.text = "性別："
+            ageTxt.text = "年齡："
+            male.text = "男"
+            female.text = "女"
+            female.textSize = 20f
+            male.textSize = 20f
+            next.text = "下一步"
+            val adapter = ArrayAdapter.createFromResource(this, R.array.age, R.layout.spinner_item)
+            adapter.setDropDownViewResource(R.layout.spinner_item)
+            spn_age.adapter = adapter
+        }
     }
 }

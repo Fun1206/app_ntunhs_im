@@ -17,7 +17,8 @@ import android.widget.TextView
 
 class SubParts_input : AppCompatActivity() {
     private lateinit var dbHelper: SQLiteOpenHelper
-
+    private val PREFS_NAME = "language_prefs"
+    private val KEY_LANGUAGE = "language_key"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_subparts_input)
@@ -26,39 +27,55 @@ class SubParts_input : AppCompatActivity() {
         val home = findViewById<ImageButton>(R.id.home_btn)
         val previous = findViewById<Button>(R.id.previous3_btn)
         val next = findViewById<Button>(R.id.next3_btn)
-
+        val titleTextView = findViewById<TextView>(R.id.title_textView)
+        val selectTextView = findViewById<TextView>(R.id.textView2)
         val container = findViewById<LinearLayout>(R.id.checkboxContainer)
         container.removeAllViews()
+
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val isEnglish = sharedPreferences.getBoolean(KEY_LANGUAGE, false)
+
+        // 根據值更新UI
+        updateUI(isEnglish, titleTextView, selectTextView, previous, next)
+
         val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         val gender = intent.getStringExtra("gender")
-        val selectedParts = intent.getStringArrayListExtra("selected_parts") ?: arrayListOf()
-        val side = intent.getIntExtra("side", -1)
 
-        addSelectedPartsBySide(prefs, side, selectedParts)
+        // 獲取從前一個Activity傳遞過來的資料
+        val bodyPartIDList = intent.getStringArrayListExtra("BodyPartID")
+        addSelectedParts(prefs, gender, bodyPartIDList)
 
-        selectedParts.forEach { part ->
-            dbHelper.getBodyPartIDByPartNameAndGender(part, if (gender == "male") 0 else 1)?.let { bodyPartId ->
-                dbHelper.getSubPartsByPartId(bodyPartId)?.let { subParts ->
-                    displayOptions(subParts, part, container)
+        bodyPartIDList?.forEach { bodyPartID ->
+            val resultList = dbHelper.getBodyPartsByBodyPartID(bodyPartID.toInt())
+            if (resultList.isNotEmpty()) {
+                val partName = resultList[0].PartName
+                dbHelper.getSubPartsByPartId(bodyPartID.toInt())?.let { subParts ->
+                    displayOptions(subParts, resultList, container, isEnglish)
                 }
             }
         }
 
-        setupListeners(home, previous, gender, next, container)
+        setupListeners(home, previous, gender, next, container, isEnglish)
     }
 
-    private fun addSelectedPartsBySide(prefs: SharedPreferences, side: Int, selectedParts: MutableList<String>) {
-        val partsMap = if (side == 0) {
-            mapOf("back" to "背部", "waist" to "腰部", "buttocks" to "臀部")
+    private fun addSelectedParts(prefs: SharedPreferences, gender: String?, bodyPartIDList: ArrayList<String>?) {
+        // 對 bodyPartIDList 進行擴充
+        val partsMap = if (gender == "male") {
+            mapOf("back" to "12", "waist" to "13", "buttocks" to "14",
+                "chest" to "3", "abdomen" to "4", "lower_abdomen" to "5")
         } else {
-            mapOf("chest" to "胸部", "abdomen" to "腹部", "lower_abdomen" to "下腹部")
+            mapOf("back" to "34", "waist" to "35", "buttocks" to "36",
+                "chest" to "25", "abdomen" to "26", "lower_abdomen" to "27")
         }
+
         partsMap.forEach { (key, value) ->
-            if (prefs.getBoolean(key, false)) selectedParts.add(value)
+            if (prefs.getBoolean(key, false)) {
+                bodyPartIDList?.add(value)
+            }
         }
     }
 
-    private fun setupListeners(home: ImageButton, previous: Button, gender: String?, next: Button, container: LinearLayout) {
+    private fun setupListeners(home: ImageButton, previous: Button, gender: String?, next: Button, container: LinearLayout ,isEnglish: Boolean) {
         home.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
         previous.setOnClickListener {
             startActivity(Intent(this, if (gender == "male") frontbody_male::class.java else frontbody_female::class.java))
@@ -78,9 +95,9 @@ class SubParts_input : AppCompatActivity() {
             if (selectedSubPartIDs.isEmpty()) {
                 // 沒有選中任何CheckBox，顯示AlertDialog
                 AlertDialog.Builder(this)
-                    .setTitle("提示")
-                    .setMessage("請點選至少一種細節部位")
-                    .setPositiveButton("確定") { dialog, _ -> dialog.dismiss() }
+                    .setTitle(if (isEnglish) "Alert" else "提示")
+                    .setMessage(if (isEnglish) "Please select at least one part" else "請點選至少一種細節部位")
+                    .setPositiveButton(if (isEnglish) "OK" else "確定") { dialog, _ -> dialog.dismiss() }
                     .show()
             } else {
                 // 有選中的CheckBox，進行頁面跳轉
@@ -92,9 +109,9 @@ class SubParts_input : AppCompatActivity() {
         }
     }
 
-    private fun displayOptions(bodyParts: List<SubPart>, partName: String, container: LinearLayout) {
+    private fun displayOptions(SubParts: List<SubPart>, BodyParts: List<BodyPart>, container: LinearLayout, isEnglish: Boolean) {
         val textView = TextView(this).apply {
-            text = partName
+            text = if (isEnglish) BodyParts[0].En_PartName else BodyParts[0].PartName
             textSize = 24f
             setTypeface(null, Typeface.BOLD)
             gravity = Gravity.CENTER_HORIZONTAL
@@ -104,9 +121,9 @@ class SubParts_input : AppCompatActivity() {
         }
         container.addView(textView)
 
-        bodyParts.forEach { part ->
+        SubParts.forEach { part ->
             container.addView(CheckBox(this).apply {
-                text = part.SubPartName
+                text = if (isEnglish) part.En_SubPartName else part.SubPartName
                 textSize = 20f
                 setTypeface(null, Typeface.BOLD)
                 setBackgroundResource(R.drawable.checkbox_background)
@@ -118,6 +135,24 @@ class SubParts_input : AppCompatActivity() {
             })
         }
     }
-
+    private fun updateUI(
+        isEnglish: Boolean,
+        titleTextView: TextView,
+        selectTextView: TextView,
+        previousBtn: Button,
+        nextBtn: Button
+    ) {
+        if (isEnglish) {
+            titleTextView.text = "Symptom Analysis"
+            selectTextView.text = "Select detailed parts (multiple choice)"
+            previousBtn.text = "Previous"
+            nextBtn.text = "Next"
+        } else {
+            titleTextView.text = "症狀分析"
+            selectTextView.text = "選擇細節部位（多選）"
+            previousBtn.text = "上一步"
+            nextBtn.text = "下一步"
+        }
+    }
     private fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
 }

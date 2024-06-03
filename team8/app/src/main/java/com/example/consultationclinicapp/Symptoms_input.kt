@@ -1,6 +1,7 @@
 package com.example.consultationclinicapp
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Typeface
@@ -16,6 +17,9 @@ import androidx.core.view.children
 
 class Symptoms_input : AppCompatActivity() {
     private lateinit var dbHelper: SQLiteOpenHelper
+    private val PREFS_NAME = "language_prefs"
+    private val KEY_LANGUAGE = "language_key"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_symptoms_input)
@@ -23,30 +27,20 @@ class Symptoms_input : AppCompatActivity() {
         val home = findViewById<ImageButton>(R.id.home_btn)
         val previous = findViewById<Button>(R.id.previous4_btn)
         val next = findViewById<Button>(R.id.next4_btn)
+        val titleTextView = findViewById<TextView>(R.id.title_textView)
+        val selectTextView = findViewById<TextView>(R.id.textView3)
         val container = findViewById<LinearLayout>(R.id.checkboxContainer)
         container.removeAllViews()
 
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val isEnglish = sharedPreferences.getBoolean(KEY_LANGUAGE, false)
         val log = findViewById<Button>(R.id.log_btn)/*查看已選擇症狀*/
-        log.setOnClickListener {
-            val checkBoxList = container.children.filterIsInstance<CheckBox>()
-            val selectedSymptoms = checkBoxList.filter { it.isChecked }.joinToString(separator = "\n") {
-                "${it.text}, SymptomID:${it.tag}"  // 現在會顯示格式為 "id:?, 症狀名稱"
-            }
 
-            if (selectedSymptoms.isNotEmpty()) {
-                AlertDialog.Builder(this)
-                    .setTitle("已選擇的症狀")
-                    .setMessage(selectedSymptoms)
-                    .setPositiveButton("確定") { dialog, _ -> dialog.dismiss() }
-                    .show()
-            } else {
-                AlertDialog.Builder(this)
-                    .setTitle("提示")
-                    .setMessage("沒有選擇任何症狀")
-                    .setPositiveButton("確定") { dialog, _ -> dialog.dismiss() }
-                    .show()
-            }
-        }
+        // 根據值更新UI
+        updateUI(isEnglish, titleTextView, selectTextView, previous, next, log)
+
+
+
         // 獲取從上一個Activity傳來的數據
         val selectedSubParts = intent.getStringArrayListExtra("selectedSubParts")
         val selectedSubPartIDs = intent.getIntegerArrayListExtra("selectedSubPartIDs")
@@ -60,17 +54,18 @@ class Symptoms_input : AppCompatActivity() {
         }
 
         // 顯示對話框
-        showAlert("選擇的部位與症狀資訊", displayText.toString())
+        showAlert("選擇的部位與症狀資訊", displayText.toString(), isEnglish)
 
         // 動態生成checkBOX
         selectedSubPartIDs?.forEachIndexed { index, id ->
             val SubParts = selectedSubParts?.get(index)
-            SubParts?.let { displaySymptoms(dbHelper.getSymptomsBySubPartId(id), it, container) }
+            SubParts?.let { displaySymptoms(dbHelper.getSymptomsBySubPartId(id), it, container, isEnglish) }
         }
-        setupButtons(home, previous, next, log, container)
+
+        setupButtons(home, previous, next, log, container, isEnglish)
     }
 
-    private fun setupButtons(home: ImageButton, previous: Button, next: Button, log: Button, container: LinearLayout) {
+    private fun setupButtons(home: ImageButton, previous: Button, next: Button, log: Button, container: LinearLayout, isEnglish: Boolean) {
         log.setOnClickListener {
             val selectedSymptoms = container.children.filterIsInstance<CheckBox>()
                 .filter { it.isChecked }
@@ -79,9 +74,9 @@ class Symptoms_input : AppCompatActivity() {
                 }
 
             if (selectedSymptoms.isNotEmpty()) {
-                showAlert("已選擇的症狀", selectedSymptoms)
+                showAlert(if (isEnglish) "Selected symptoms" else "已選擇的症狀", selectedSymptoms, isEnglish)
             } else {
-                showAlert("提示", "沒有選擇任何症狀")
+                showAlert(if (isEnglish) "Alert" else "提示", if (isEnglish) "No symptoms selected" else "沒有選擇任何症狀", isEnglish)
             }
         }
 
@@ -106,20 +101,20 @@ class Symptoms_input : AppCompatActivity() {
                 nextIntent.putIntegerArrayListExtra("selectedSymptomIDs", ArrayList(checkedTags))
                 startActivity(nextIntent)
             } else {
-                showAlert("提示", "請選擇至少一種症狀")
+                showAlert(if (isEnglish) "Alert" else "提示", if (isEnglish) "Please select at least one symptom" else "請選擇至少一種症狀", isEnglish)
             }
         }
     }
 
-    private fun showAlert(title: String, message: String) {
+    private fun showAlert(title: String, message: String, isEnglish: Boolean) {
         AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)
-            .setPositiveButton("確定") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(if (isEnglish) "OK" else "確定") { dialog, _ -> dialog.dismiss() }
             .show()
     }
 
-    private fun displaySymptoms(symptoms: List<Symptom>, SubPartName: String, container: LinearLayout) {
+    private fun displaySymptoms(symptoms: List<Symptom>, SubPartName: String, container: LinearLayout, isEnglish: Boolean) {
         val textView = TextView(this).apply {
             text = SubPartName
             textSize = 24f
@@ -133,7 +128,7 @@ class Symptoms_input : AppCompatActivity() {
         if (symptoms.isEmpty()) {
             // 如果沒有症狀，則添加一個TextView顯示"查無症狀"
             val noSymptomsText = TextView(this).apply {
-                text = "查無症狀"
+                text = if (isEnglish) "No symptoms found" else "查無症狀"
                 textSize = 20f
                 setTypeface(null, Typeface.ITALIC)
                 gravity = Gravity.CENTER
@@ -145,7 +140,7 @@ class Symptoms_input : AppCompatActivity() {
         } else {
             symptoms.forEach { symptom ->
                 container.addView(CheckBox(this).apply {
-                    text = symptom.SymName  // 使用症狀的名稱作為CheckBox的文本
+                    text = if (isEnglish) symptom.En_SymName else symptom.SymName // 使用症狀的名稱作為CheckBox的文本
                     textSize = 20f
                     setTypeface(null, Typeface.BOLD)
                     setBackgroundResource(R.drawable.checkbox_background)
@@ -155,6 +150,29 @@ class Symptoms_input : AppCompatActivity() {
                     tag = symptom.SymptomID  // 將症狀的ID設為CheckBox的標籤
                 })
             }
+        }
+    }
+
+    private fun updateUI(
+        isEnglish: Boolean,
+        titleTextView: TextView,
+        selectTextView: TextView,
+        previousBtn: Button,
+        nextBtn: Button,
+        logBtn: Button
+    ) {
+        if (isEnglish) {
+            titleTextView.text = "Symptom Analysis"
+            selectTextView.text = "Select symptoms (multiple choice)"
+            previousBtn.text = "Previous"
+            nextBtn.text = "Next"
+            logBtn.text = "View selected symptoms"
+        } else {
+            titleTextView.text = "症狀分析"
+            selectTextView.text = "選擇症狀（多選）"
+            previousBtn.text = "上一步"
+            nextBtn.text = "下一步"
+            logBtn.text = "查看已選擇症狀"
         }
     }
 

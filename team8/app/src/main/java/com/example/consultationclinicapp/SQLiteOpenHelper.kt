@@ -1342,12 +1342,11 @@ class SQLiteOpenHelper(
             stmt7.clearBindings()
         }
     }
-
-    // 用兩個條件Gender和Side查詢BodyParts的資料表結果
-    fun getBodyPartsByTypeAndPosition(Gender: Int, Side: Int): List<BodyPart> {
+    // 使用BodyPartID查詢BodyParts的資料表結果
+    fun getBodyPartsByBodyPartID(BodyPartID: Int): List<BodyPart> {
         val db = this.readableDatabase
-        val selection = "Gender = ? AND Side = ?"
-        val selectionArgs = arrayOf(Gender.toString(), Side.toString())
+        val selection = "BodyPartID = ?"
+        val selectionArgs = arrayOf(BodyPartID.toString())
         val cursor = db.query(
             "BodyParts",      // 表名
             null,             // 欄位名（null 表示選擇所有欄位）
@@ -1358,46 +1357,21 @@ class SQLiteOpenHelper(
             null              // orderBy
         )
 
-        val parts= mutableListOf<BodyPart>()
+        val parts = mutableListOf<BodyPart>()
         with(cursor) {
             while (moveToNext()) {
-                val BodyPartID = getInt(getColumnIndexOrThrow("BodyPartID"))
-                val PartName = getString(getColumnIndexOrThrow("PartName "))
-                val En_PartName = getString(getColumnIndexOrThrow("En_PartName "))
-                parts.add(BodyPart(BodyPartID, Gender, PartName, En_PartName, Side))
+                val id = getInt(getColumnIndexOrThrow("BodyPartID"))
+                val gender = getInt(getColumnIndexOrThrow("Gender"))
+                val partName = getString(getColumnIndexOrThrow("PartName"))
+                val enPartName = getString(getColumnIndexOrThrow("En_PartName"))
+                val side = getInt(getColumnIndexOrThrow("Side"))
+                parts.add(BodyPart(id, gender, partName, enPartName, side))
             }
             close()
         }
         db.close()
         return parts
     }
-
-    // 用兩個條件PartName和Gender查詢BodyParts的資料表結果
-    fun getBodyPartIDByPartNameAndGender(PartName: String, Gender: Int): Int? {
-        val db = this.readableDatabase
-
-        // 更新選擇條件以包括 part_name 或 en_part_name 和 Gender
-        val selection = "(PartName = ? OR En_PartName = ?) AND Gender = ?"
-        val selectionArgs = arrayOf(PartName, PartName, Gender.toString())
-        val cursor = db.query(
-            "BodyParts",
-            arrayOf("BodyPartID"),  // 只需查詢 BodyPartID 欄位
-            selection,
-            selectionArgs,
-            null,
-            null,
-            null
-        )
-
-        var BodyPartID: Int? = null
-        if (cursor.moveToFirst()) {  // 如果查詢到數據，則讀取第一條記錄的 BodyPartID
-            BodyPartID = cursor.getInt(cursor.getColumnIndexOrThrow("BodyPartID"))
-        }
-        cursor.close()
-        db.close()
-        return BodyPartID
-    }
-
 
     // 用條件BodyPartID查詢SubParts的資料表結果
     fun getSubPartsByPartId(BodyPartID: Int): List<SubPart> {

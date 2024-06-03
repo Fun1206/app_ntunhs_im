@@ -28,14 +28,14 @@
         android:layout_marginStart="68dp"
         app:layout_constraintEnd_toStartOf="@+id/analyze_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/illustrate_Img"
         app:srcCompat="@drawable/analyze" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="316dp"
         android:layout_height="283dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,14 +55,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.703"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/illustrate_Img"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/illustrate_Img"
         android:layout_width="382dp"
         android:layout_height="342dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginTop="265dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,14 +84,16 @@
         app:layout_constraintVertical_bias="0.129" />
 
     <Switch
-        android:id="@+id/change_switch"
+        android:id="@+id/languageSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/checkbox_background"
-        android:text="切換中/英文"
+        android:textOff="中文"
+        android:textOn="English"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:layout_centerInParent="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.932"
         app:layout_constraintStart_toStartOf="parent"
