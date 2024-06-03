@@ -10,8 +10,8 @@ class SQLiteOpenHelper(
 ): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         private const val DATABASE_NAME = "example.db"
-        // 資料庫版本，當資料筆資料增加需要調整版本號，目前為版本=5
-        private const val DATABASE_VERSION = 5
+        // 資料庫版本，當資料筆資料增加需要調整版本號，目前為版本=6
+        private const val DATABASE_VERSION = 6
 
         // 建立 BodyParts(身體部位) 表的 SQL 語句
         private const val CREATE_TABLE_BODYPARTS = """
@@ -73,6 +73,17 @@ class SQLiteOpenHelper(
                 FOREIGN KEY(DepartmentID) REFERENCES Departments(DepartmentID)
             )
         """
+
+        // 建立 Medicine (成藥) 表的 SQL 語句
+        private const val CREATE_TABLE_MEDICINES = """
+            CREATE TABLE IF NOT EXISTS Medicines (
+                MedicineID INTEGER PRIMARY KEY,
+                MedicineName TEXT,
+                En_MedicineName TEXT,
+                Uses TEXT,
+                En_Uses TEXT
+            )
+        """
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -82,6 +93,7 @@ class SQLiteOpenHelper(
         db.execSQL(CREATE_TABLE_SUBPARTSYMPTOMS)
         db.execSQL(CREATE_TABLE_DEPARTMENTS)
         db.execSQL(CREATE_TABLE_SYMPTOMDEPARTMENTS)
+        db.execSQL(CREATE_TABLE_MEDICINES)
         // 插入預設資料
         insertDefaultData(db)
     }
@@ -1222,6 +1234,113 @@ class SQLiteOpenHelper(
             stmt6.executeInsert()
             stmt6.clearBindings()
         }
+
+        // TABLE_MEDICINES
+        val defaultData7 = listOf(
+            Medicine(1,"普拿疼止痛加強錠","Panadol Extra with Optizorb","退燒、止痛(緩解頭痛、牙痛、咽喉痛、關節痛、神經痛、肌肉酸痛、月經痛)。","Fever and pain relief (relieves headache, toothache, sore throat, arthralgia, neuralgia, muscle aches, menstrual pain)."),
+            Medicine(2,"普拿疼伏冒日夜綜合感冒錠","Panadol Cold & Flu Day & Night Tablets","緩解感冒之各種症狀(咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏)","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing)"),
+            Medicine(3,"普拿疼肌立水性酸痛藥布","Panadol Diclofenac Hydrogel Patch","短期使用以緩解因發炎反應引起之局部疼痛。","Use for a short period of time to relieve local pain caused by inflammation."),
+            Medicine(4,"普拿疼舒經熱飲散劑","Panadol Menstrual Pain Hot Remedy Powder","緩解月經痛。","Relieves menstrual pain."),
+            Medicine(5,"普拿疼肌立酸痛凝膠","PANADOL DICLOFENAC GEL","短期使用以緩解因發炎反應引起之局部疼痛。","Use for a short period of time to relieve local pain caused by inflammation."),
+            Medicine(6,"普拿疼伏冒熱飲傷風散劑","Panadol Common Cold Hot Remedy Powder","緩解感冒之各種症狀(鼻塞、咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛)。","Relieves various symptoms of cold (nasal congestion, sore throat, chills, fever, headache, joint pain, muscle aches)."),
+            Medicine(7,"普拿疼伏冒日夜膜衣錠","Panadol Day & Night Cough, Cold & Flu F.C. Caplets","緩解感冒之各種症狀(頭痛、咽喉痛、咳嗽、鼻塞、流鼻水、打噴嚏、畏寒、發燒、關節痛、肌肉酸痛等)。","Relieves various symptoms of colds (headache, sore throat, cough, nasal congestion, runny nose, sneezing, chills, fever, joint pain, muscle aches, etc.)."),
+            Medicine(8,"普拿疼肌立酸痛藥布","Panadol Diclofenac Oil Plaster","短期使用以緩解因發炎反應引起之局部疼痛。","Use for a short period of time to relieve local pain caused by inflammation."),
+            Medicine(9,"普拿疼伏冒熱飲散劑加強配方","Panadol Cold & Flu Hot Remedy Powder extra formula","緩解感冒之各種症狀(鼻塞、咽喉痛、咳嗽、畏寒、發燒、頭痛、關節痛、肌肉酸痛)。","Relieves various symptoms of cold (nasal congestion, sore throat, cough, chills, fever, headache, joint pain, muscle aches)."),
+            Medicine(10,"普拿疼伏冒治咳膜衣錠","Panadol Cold and Flu Cough F.C. Caplets","緩解感冒之各種症狀(頭痛、咽喉痛、咳嗽、鼻塞、畏寒、發燒、關節痛、肌肉酸痛)。","Relieves various symptoms of colds (headache, sore throat, cough, nasal congestion, chills, fever, joint pain, muscle aches)."),
+            Medicine(11,"普拿疼伏冒錠","PANADOL COLD & FLU CAPLETS","緩解感冒之各種症狀(鼻塞、咽喉痛、咳嗽、畏寒、發燒、頭痛、關節痛、肌肉酸痛)。","Relieves various symptoms of cold (nasal congestion, sore throat, cough, chills, fever, headache, joint pain, muscle aches)."),
+            Medicine(12,"普拿疼肌立彈性透氣酸痛藥布","Panadol Diclofenac Stretch Patch","短期使用以緩解因發炎反應引起之局部疼痛。","Use for a short period of time to relieve local pain caused by inflammation."),
+            Medicine(13,"普拿疼伏冒鼻炎錠","Panadol Allergy Sinus Caplets","緩解感冒之各種症狀(咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏)。","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing)."),
+            Medicine(14,"普拿疼伏冒熱飲散","PANADOL COLD & FLU HOT REMEDY POWDER","緩解感冒之各種症狀(鼻塞、咽喉痛、發燒、頭痛、關節痛、肌肉酸痛)。","Relieves various symptoms of colds (nasal congestion, sore throat, fever, headache, joint pain, muscle aches)."),
+            Medicine(15,"普拿疼伏冒加強錠","PANADOL COLD EXTRA CAPLETS","緩解感冒之各種症狀(鼻塞、咽喉痛、咳嗽、畏寒、發燒、頭痛、肌肉酸痛)。","Relieves various symptoms of cold (nasal congestion, sore throat, cough, chills, fever, headache, muscle aches)."),
+            Medicine(16,"普拿疼速效膜衣錠","PANADOL ACTIFAST TABLETS","退燒、止痛(緩解頭痛、牙痛、咽喉痛、關節痛、神經痛、肌肉酸痛、月經痛 )。","Fever and pain relief (relieves headache, toothache, sore throat, arthralgia, neuralgia, muscle aches, menstrual pain)."),
+            Medicine(17,"普拿疼膜衣錠500毫克","PANADOL FILM COATED CAPLETS 500MG","退燒、止痛(緩解頭痛、牙痛、咽喉痛、關節痛、神經痛、肌肉酸痛、月經痛)。","Fever and pain relief (relieves headache, toothache, sore throat, arthralgia, neuralgia, muscle aches, menstrual pain)."),
+            Medicine(18,"普拿疼伏冒綜合鼻炎錠","Panadol Allergy Sinus Tablet","緩解感冒之各種症狀（咽喉痛、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏）。","Relieves various symptoms of cold (sore throat, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing)."),
+            Medicine(19,"普拿疼伏冒止咳錠","Panadol Cough & Cold Caplets","緩解感冒之各種症狀(咳嗽、咽喉痛、鼻塞、畏寒、發燒、頭痛、肌肉酸痛、關節痛)。","Relieves various symptoms of cold (cough, sore throat, nasal congestion, chills, fever, headache, muscle aches, joint pain)."),
+            Medicine(20,"貝膚恩軟膏","Bacipin Ointment","緊急處理、預防因皮膚外傷(如刀傷、擦傷、刺傷、抓傷、磨傷、輕微燙傷)造成的感染或減緩傷口的感染 。","Emergency treatment, prevention of infection caused by skin trauma (e.g., cuts, abrasions, punctures, scratches, abrasions, minor burns) or slowing down wound infection."),
+            Medicine(21,"銀淨燙傷乳膏〝寶齡〞","SILZINE CREAM PBF","火傷、燙傷及防止其傷處化膿","Burns, burns, burns, and wounds"),
+            Medicine(22,"斯斯保肝膠囊","SUZUMARIN CAPSULE","慢性肝病的營養補給。","Nutritional supplementation for chronic liver disease."),
+            Medicine(23,"斯斯咳嗽膠囊","SUZULEX COUGH CAPSULES","鎮咳、祛痰。","Antitussive, expectorant."),
+            Medicine(24,"斯斯解痛錠125毫克","U CHIU ANALGESIC CAPLETS 125MG","退燒、止痛（緩解頭痛、牙痛、咽喉痛、關節痛、神經痛、肌肉酸痛、月經痛）。","Fever and pain relief (relieves headache, toothache, sore throat, arthralgia, neuralgia, muscle aches, menstrual pain)."),
+            Medicine(25,"斯斯解痛加強錠","U-Chu Plus Analgesic Caplets","退燒、止痛(緩解頭痛、牙痛、咽喉痛、關節痛、神經痛、肌肉酸痛、月經痛)。","Fever and pain relief (relieves headache, toothache, sore throat, arthralgia, neuralgia, muscle aches, menstrual pain)."),
+            Medicine(26,"斯斯感冒膠囊","SUZULEX A CAPSULES","緩解感冒之各種症狀（咽喉痛、發燒、頭痛、關節痛、肌肉痛、流鼻水、鼻塞、打噴嚏、咳嗽）。","Relieves various symptoms of cold (sore throat, fever, headache, joint pain, muscle pain, runny nose, nasal congestion, sneezing, cough)."),
+            Medicine(27,"斯斯鼻炎膠囊","SUZULEX BIEN A CAPSULE","緩解過敏性鼻炎、枯草熱所引起之相關症狀（鼻塞、流鼻水、打噴嚏、眼睛及喉部搔癢）。","Relieves symptoms related to allergic rhinitis and hay fever (nasal congestion, runny nose, sneezing, itchy eyes and throat)."),
+            Medicine(28,"斯斯解痛錠","U CHU ANALGESIC CAPLETS","退燒、止痛（緩解頭痛、牙痛、咽喉痛、關節痛、神經痛、肌肉酸痛、月經痛）。","Fever and pain relief (relieves headache, toothache, sore throat, arthralgia, neuralgia, muscle aches, menstrual pain)."),
+            Medicine(29,"斯斯爽喉消炎噴液","U-Chu Throdine Spray","口腔消毒殺菌","Oral disinfection and sterilization"),
+            Medicine(30,"斯斯保肝普拉思膠囊","U-Chu Silymarin Plus Capsules","慢性肝病之佐藥","Adjuvant for chronic liver disease"),
+            Medicine(31,"斯斯鼻通噴鼻液0.1%","SUZULEX NASAL SPRAY 0.1%","暫時緩解因鼻炎、過敏性鼻炎、過敏或感冒引起之鼻塞、流鼻水症狀。","Temporarily relieves nasal congestion and runny nose caused by rhinitis, allergic rhinitis, allergies or colds."),
+            Medicine(32,"斯斯舒痛軟膠囊","U-CHU Pain Reliever Soft Capsules","暫時性解除頭痛、肌肉疼痛、關節炎的輕度疼痛、牙痛、背痛、輕度疼痛及與感冒有關的疼痛、經痛及解熱作用。","Temporarily relieves headache, muscle pain, mild pain of arthritis, toothache, back pain, mild pain and cold-related pain, menstrual pain and antipyretic."),
+            Medicine(33,"斯斯日夜感冒熱飲","U-Chu Day & Night Cold Powder","緩解感冒之各種症狀(鼻塞、流鼻水、打噴嚏、咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛等)。","Relieves various symptoms of cold (nasal congestion, runny nose, sneezing, sore throat, chills, fever, headache, joint pain, muscle aches, etc.)."),
+            Medicine(34,"斯斯去痛膜衣錠","U-CHU PAIN RELIEVER F.C. TABLETS","暫時性解除頭痛、肌肉疼痛、關節炎的輕度疼痛、牙痛、背痛、輕度疼痛及與感冒有關的疼痛、經痛及解熱作用。","Temporarily relieves headache, muscle pain, mild pain of arthritis, toothache, back pain, mild pain and cold-related pain, menstrual pain and antipyretic."),
+            Medicine(35,"壽元去疤痕癒膚乳膏50毫克/公克(阿撤米酸)","SCARLESS & BEAUTY SKIN CREAM 50MG/GM S.Y.(ACEXAMIC ACID)","外傷傷口、手術時的傷口、潰瘍性靜脈曲張、動脈潰瘍、疤痕及預防燙傷癒合後引起的皮膚萎縮及瘢瘤。","Traumatic wounds, surgical wounds, ulcerative varicose veins, arterial ulcers, scars, and prevention of skin atrophy and tumors caused by the healing of burns."),
+            Medicine(36,"去疤乳膏","ANTISCAR CREAM","外傷傷口、手術時的傷口、燒傷、廔管性骨炎、潰瘍性靜脈曲張、動脈潰瘍、疤痕、潰瘍性褥瘡及預防燙傷癒合後引起的皮膚萎縮及瘢瘤。","Traumatic wounds, surgical wounds, burns, osteitis ductopatha, ulcerative varicose veins, arterial ulcers, scars, ulcerative bedsores, and prevention of skin atrophy and tumors caused by the healing of burns."),
+            Medicine(37,"喜療瘀凝膠","Hirudoid Gel 300mg/100g","鈍物創傷後之血腫，淺層性靜脈炎之局部治療。","Local treatment of hematoma after blunt trauma and superficial phlebitis."),
+            Medicine(38,"紐約 新黴素軟膏","NEOMYCIN OINTMENT N.Y.","緊急處理、預防因皮膚外傷(如刀傷、擦傷、刺傷、抓傷、磨傷、輕微燙傷)造成的感染或減緩傷口的感染。","Emergency treatment, prevention of infection caused by skin trauma (e.g., cuts, abrasions, punctures, scratches, abrasions, minor burns) or slowing down wound infection."),
+            Medicine(39,"西德有機新黴素膠囊250毫克","NEOMYCIN CAPSULES 250mg SHITEH","革蘭氏陽性菌及革蘭氏陰性菌之感染症","Infections of Gramina and Gramella Negative"),
+            Medicine(40,"人人新黴素膠囊250公絲","NEOMYCIN SULFATE CAPSULES 250MG GCPC","細菌性痢疾、沙門氏菌、志賀氏菌、阿米巴原蟲等所致感染性腸炎","Infectious hyatitis caused by bacillary dysentery, Salmonella, Chiga, amoeba protozoa, etc"),
+            Medicine(41,"倍多隆新黴素點眼液","BETAMETHASONE C NEOMYCIN EYE SOLUTION C.S.P.","濕疹性眼瞼炎、眼瞼緣炎、眼瞼火傷、結膜炎、結膜火傷、角膜潰瘍、角膜炎、虹彩炎","Herpetic blepharitis, blepharitis, blepharosis, blepharoscopic burn, conjunctivitis, conjunctival burn, corneal ulcer, keratitis, iritis"),
+            Medicine(42,"綠油精","GREEN OIL","頭眩鼻塞、肚痛、頭痛、小兒腹痛、胸肩不舒、蚊蟲咬傷、湯火灼傷、止癢消腫、手足痠痛、肌肉痠痛、暈船、暈車。","Dizziness, nasal congestion, abdominal pain, headache, abdominal pain in children, chest and shoulder discomfort, mosquito bites, soup burns, itching and swelling, hand and foot pain, muscle aches, seasickness, motion sickness."),
+            Medicine(43,"新痛風寧膠囊","NEO-TONFONRIN CAPSULES","風濕樣關節炎、骨關節炎、肌肉骨骼疾患","Rheumatoid arthritis, osteoarthritis, musculoskeletal disorders"),
+            Medicine(44,"痛風寧片","TONFONRIN TABLETS SWISS","風濕症、皮肌炎、風濕關節炎","Rheumatism,Dermatomyositis,Rheumatoid Arthritis"),
+            Medicine(45,"均隆驅風油清香綠","KWAN LOONG MEDICATED OIL FRAGRANT GREEN","頭眩鼻塞、頭痛、牙痛、散淤止痛、腰酸背痛、精神困倦、中暑、暈浪、蚊蟲咬傷、湯火燙傷、止癢消腫","Dizziness and nasal congestion, headache, toothache, stasis and pain relief, backache, mental drowsiness, heat stroke, motion sickness, mosquito bites, soup burns, itching and swelling"),
+            Medicine(46,"風濕膠囊(福鈉密鋁)","ROITIS CAPSULES (ALUMINUM FLUFENAMATE) SENTAI","慢性關節僂麻質斯、關節炎、變形性關節症、變形性脊椎症、脊椎障礙、背痛症、關節周圍炎、筋痛、外傷性關節症、神經痛、神經炎","Chronic arthrophysis, arthritis, degenerative arthrosis, degenerative spondylosis, spinal disorders, back pain, periarthritis, tendon pain, traumatic arthrosis, neuralgia, neuritis"),
+            Medicine(47,"克達風膠囊25公絲(可多普洛菲)","KETAFON CAPSULES 50MG (KETOPROFEN) G.A.P.","慢性關節性風濕痛、變形性關節症、痛風、外傷及手術後之鎮痛消炎","Analgesia and anti-inflammatory after chronic arthral rheumatic pain, degenerative arthropathy, gout, trauma and surgery"),
+            Medicine(48,"一陣風感冒液","ICHEN FONG ANCOLD SOLUTION","感冒諸症狀（流鼻水、鼻塞、打噴嚏、咽喉痛、喀痰、畏寒、發燒、頭痛、關節痛、肌肉痛等）。","Symptoms of a cold (runny nose, nasal congestion, sneezing, sore throat, phlegm, chills, fever, headache, joint pain, muscle pain, etc.)."),
+            Medicine(49,"優生治風痛錠50毫克(本補麻隆)","DEURON TABLETS 50MG YU SHENG (BENZBROMARONE)","痛風、高尿酸血症","Gout, hyperuricemia"),
+            Medicine(50,"合強 風熱友液","HONZEYU SOLUTION H.C.","感冒諸症狀（流鼻水、鼻塞、打噴嚏、咽喉痛、咳嗽、喀痰、發熱、頭痛）之緩解","Relief of cold symptoms (runny nose, nasal congestion, sneezing, sore throat, cough, phlegm, fever, headache)."),
+            Medicine(51,"傷風膠囊","ANTICOLD CAPSULES","緩解感冒之各種症狀（咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏、咳嗽、喀痰）。","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing, cough, phlegm)."),
+            Medicine(52,"黃氏利得風安感冒液","LIDFONAN COLD LIQUID H.S","感冒諸症狀（鼻塞、流鼻水、打噴嚏、咳嗽、喀痰、發熱、頭痛）之緩解","Relief of cold symptoms (nasal congestion, runny nose, sneezing, cough, phlegm, fever, headache)."),
+            Medicine(53,"可治風膠囊","ANTICOLD CAPSULES KOJAR","緩解感冒之各種症狀（咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏、咳嗽）。","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing, cough)."),
+            Medicine(54,"傷風友感冒液","SANFONYO COLD LIQUID","緩解感冒之各種症狀（流鼻水、鼻塞、打噴嚏、咽喉痛、咳嗽、喀痰、畏寒、發燒、頭痛、關節痛、肌肉酸痛）","Relieves various symptoms of cold (runny nose, nasal congestion, sneezing, sore throat, cough, phlegm, chills, fever, headache, joint pain, muscle aches)"),
+            Medicine(55,"日科抗風邪綜合感冒軟膠囊","NIKAI COLD SOFT CAPSULE","緩解感冒之各種症狀(流鼻水、鼻塞、打噴嚏、咳嗽、喀痰、咽喉痛、發燒、頭痛、畏寒、關節痛、肌肉酸痛)。","Relieves various symptoms of cold (runny nose, nasal congestion, sneezing, cough, phlegm, sore throat, fever, headache, chills, joint pain, muscle aches)."),
+            Medicine(56,"風治樂膠囊","Sopila Capsules","緩解感冒之各種症狀(咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏、咳嗽、喀痰)。","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing, cough, phlegm)."),
+            Medicine(57,"信隆感風安膠囊","KANFONAN CAPSULES S.L","緩解感冒之各種症狀（咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏、咳嗽、喀痰）。","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing, cough, phlegm)."),
+            Medicine(58,"長安 治痛風安液","JUTONFONAN SOLUTION C.A.","感冒諸症狀（發熱、頭痛、流鼻水、鼻塞、打噴嚏、咽喉痛、喀痰）之緩解。","Relief of cold symptoms (fever, headache, runny nose, nasal congestion, sneezing, sore throat, phlegm)."),
+            Medicine(59,"破傷風預防注射劑 250 Units","HYPERTET","預防破傷風","Prevent tetanus"),
+            Medicine(60,"嗽風能膠囊","SOU FONG LURN CAPSULES NANTO","緩解感冒之各種症狀（流鼻水、鼻塞、打噴嚏、咽喉痛、咳嗽、喀痰、畏寒、發燒、頭痛、關節痛、肌肉酸痛）。","Relieves various symptoms of colds (runny nose, nasal congestion, sneezing, sore throat, cough, phlegm, chills, fever, headache, joint pain, muscle aches)."),
+            Medicine(61,"嬰護寧五合一疫苗","INFANRIX-IPV + HIB","針對二個月以上嬰幼兒白喉、百日咳、破傷風、小兒麻痺及B型流行性感冒嗜血桿菌之主動免疫。(白喉、破傷風、無細胞性百日咳、去活性小兒麻痹、b型流行性感冒嗜血桿菌混合疫苗)","Active immunization against diphtheria, pertussis, tetanus, polio and Haemophilus influenzae type b in infants and young children over 2 months old. (Diphtheria,tetanus,acellular pertussis,inactivated poliomyelitis,Haemophilus influenzae type b vaccine)"),
+            Medicine(62,"風熱痛寧液","FONZETONLIN SOLUTION","緩解感冒之各種症狀(頭痛、發燒、鼻塞、流鼻水、打噴嚏、咽喉痛、喀痰、畏寒、關節痛、肌肉痛) ","Relieves various symptoms of cold (headache, fever, nasal congestion, runny nose, sneezing, sore throat, phlegm, chills, joint pain, muscle pain)"),
+            Medicine(63,"德國辣椒標風濕膏藥","POROUS CAPSICUM PLASTER-STORNG CHILLI BRAND","風濕、腰痛、坐骨神經痛之緩解。","Relief of rheumatism, low back pain, sciatica."),
+            Medicine(64,"杏輝清風日夜感冒膜衣錠","Chinnfen Day Night Cold & Flu Film Coated Caplets Sinphar","日錠：緩解感冒之各種症狀(頭痛、咽喉痛、咳嗽、鼻塞、畏寒、發燒、關節痛、肌肉酸痛)。夜錠：緩解感冒之各種症狀(頭痛、咽喉痛、咳嗽、鼻塞、流鼻水、打噴嚏、畏寒、發燒、關節痛、肌肉酸痛)。","Lozenge: Relieves various symptoms of colds (headache, sore throat, cough, nasal congestion, chills, fever, joint pain, muscle aches). Night lozenge: Relieves various symptoms of colds (headache, sore throat, cough, nasal congestion, runny nose, sneezing, chills, fever, joint pain, muscle aches)."),
+            Medicine(65,"耐施風錠","NICEFON TABLETS","類風濕性關節炎、支氣管氣喘、風濕熱、炎性皮膚炎、癢疹、膠原病、炎症性眼疾病、結節性動脈周圍炎","Rheumatoid arthritis, bronchial asthma, rheumatic fever, inflammatory dermatitis, pruritus, collagen disease, inflammatory eye disease, nodular periarteritis"),
+            Medicine(66,"美風斯達感冒液","FLYCOLD SOLUTION","緩解感冒之各種症狀（咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏、咳嗽、喀痰）","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing, cough, phlegm)"),
+            Medicine(67,"歐業風濕痛膠囊","FONES-TON CAPSULES K.B.","神經痛、關節炎、肌肉痛、風濕痛、手術後肌痛、及肌肉痙攣強直所致疼痛之緩解","Neuralgia, arthritis, myalgia, rheumatic pain, post-operative myalgia, and pain relief caused by muscle spasm and rigidity"),
+            Medicine(68,"風治能達液","HONJUINTA SOLUTION","緩解感冒之各種症狀（咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉痛、流鼻水、鼻塞、打噴嚏、喀痰）之緩解","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle pain, runny nose, nasal congestion, sneezing, phlegm)."),
+            Medicine(69,"癒風錠","COLCHICINE TABLETS","痛風、痛風性關節炎、痛風結節","Gout, gouty arthritis, gouty nodules"),
+            Medicine(70,"長安驅風濕痛膠囊","CHI FENG SHIH TUNG CAPSULES C.A.","慢性關節炎、僂麻質斯、變形性關節症之消炎及鎮痛、神經痛、神經炎、脊椎炎","Anti-inflammatory and analgesic for chronic arthritis, etherealism, degenerative arthropathy, neuralgia, neuritis, spondylitis"),
+            Medicine(71,"風引顆粒","FONING GRANULES","緩解感冒之各種症狀（咽喉痛、咳嗽、喀痰、畏寒、發燒、頭痛、關節痛、肌肉酸痛）。","Relieves various symptoms of cold (sore throat, cough, phlegm, chills, fever, headache, joint pain, muscle aches)."),
+            Medicine(72,"福元 得克風錠25毫克","Diclofon Tablets 25mg F.Y.","緩解發炎及因發炎反應引起之疼痛。","Relieves inflammation and pain caused by inflammation."),
+            Medicine(73,"嘉林舒鼻風錠","Subefon Tablets C.L.","緩解過敏性鼻炎、枯草熱所引起之相關症狀(鼻塞、流鼻水、打噴嚏、眼睛及喉部搔癢)。","Relieves symptoms related to allergic rhinitis and hay fever (nasal congestion, runny nose, sneezing, itchy eyes and throat)."),
+            Medicine(74,"脫濕風錠(安西諾隆)","TRIAMCINOLONE TABLETS N.C.P.","類風濕性關節炎、支氣管氣喘、風濕熱、炎性皮膚炎、癢疹、膠原病、炎症性眼疾病、結節性動脈周圍炎","Rheumatoid arthritis, bronchial asthma, rheumatic fever, inflammatory dermatitis, pruritus, collagen disease, inflammatory eye disease, nodular periarteritis"),
+            Medicine(75,"美他治風錠","METATU HON TABLETS","緩解發炎及因發炎反應引起之疼痛。","Relieves inflammation and pain caused by inflammation."),
+            Medicine(76,"優良痛風走錠(安樂普諾)","XYLONOL TABLETS (ALLOPURINOL)","痛風症、痛風性關節炎、尿酸結石、癌症或經化學治療產生之高尿酸血症。","Gout, gouty arthritis, uric acid stones, cancer, or hyperuricemia due to chemotherapy."),
+            Medicine(77,"美安濕風寧膠囊","ANSIHONIN CAPSULES","感冒諸症狀（鼻塞、打噴嚏、頭痛、發熱、發熱、咽喉痛、流鼻水）之緩解","Relief of cold symptoms (nasal congestion, sneezing, headache, fever, fever, sore throat, runny nose)."),
+            Medicine(78,"風濕平膠囊","HOMSHIPEN CAPSULES","下列症狀及疾患之消炎、止痛、風濕性炎、風濕痛、風濕性關節炎、骨關節炎、關節強直性脊椎炎","The following symptoms and diseases are anti-inflammatory, analgesic, rheumatitis, rheumatic pain, rheumatoid arthritis, osteoarthritis, ankylosing spondylitis"),
+            Medicine(79,"皇佳 克風欣錠(秋水仙鹼)","COLCIN TABLETS (COLCHICINE)","急性痛風發作之緩解及預防","Relief and prevention of acute gout attacks"),
+            Medicine(80,"人人 利風錠","RHIN TABLETS GCPC","緩解感冒之各種症狀（咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏）。","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing)."),
+            Medicine(81,"袪風寧膠囊","NEO-FLU CAPSULES","緩解感冒之各種症狀(咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏)。","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing)."),
+            Medicine(82,"百百風濕膠囊50公絲(可多普洛菲)","PAPA HONSHIP CAPSULES 50MG (KETOPROFEN)","風濕性關節炎、痛風、骨關節炎、強直性脊椎骨關節炎、急性關節疾患及關節周圍疾患等病症之鎮痛、消炎","Analgesia and anti-inflammatory for rheumatoid arthritis, gout, osteoarthritis, ankylosing vertebral osteoarthritis, acute joint diseases and periarticular diseases"),
+            Medicine(83,"明德 感風寧膠囊","COMFONIN CAPSULES","鎮咳、袪痰。","Antitussive, expectorant."),
+            Medicine(84,"新喜新風樂膠囊","Sin Fun Le CAPSULES N.C.P.","緩解感冒之各種症狀（咽喉痛、發燒、頭痛、關節痛、肌肉痛、流鼻水、鼻塞、打噴嚏、咳嗽）。","Relieves various symptoms of cold (sore throat, fever, headache, joint pain, muscle pain, runny nose, nasal congestion, sneezing, cough)."),
+            Medicine(85,"元宙 安濕風膜衣錠100毫克(賜芬匹落)","ANSRON FILM COATED TABLETS 100MG","痛風、高尿酸血症、尿路結石症","Gout, hyperuricemia, urolithiasis"),
+            Medicine(86,"久松 風熱友液","HONZEYU SOLUTION C.S.","緩解感冒之各種症狀（鼻塞、流鼻水、打噴嚏、喀痰、咽喉痛、發燒、頭痛、關節痛、肌肉痛）。","Relieves various symptoms of cold (nasal congestion, runny nose, sneezing, phlegm, sore throat, fever, headache, joint pain, muscle pain)."),
+            Medicine(87,"拆風鈴優膠囊","CHAPLIN-U CAPSULES","緩解感冒之各種症狀（鼻塞、流鼻水、打噴嚏、咽喉痛、發燒、頭痛、關節痛、肌肉痛）。","Relieves various symptoms of colds (nasal congestion, runny nose, sneezing, sore throat, fever, headache, joint pain, muscle pain)."),
+            Medicine(88,"必克風膠囊","P.P.C. CAPSULES","緩解感冒之各種症狀（流鼻水、鼻塞、打噴嚏、咽喉痛、發燒、頭痛，關節痛，肌肉痛）。","Relieves various symptoms of cold (runny nose, nasal congestion, sneezing, sore throat, fever, headache, joint pain, muscle pain)."),
+            Medicine(89,"除風樂錠","TSUFONLOL TABLETS S.T.","緩解感冒之各種症狀（咽喉痛、畏寒、發燒、頭痛、關節痛、肌肉酸痛、流鼻水、鼻塞、打噴嚏、咳嗽）","Relieves various symptoms of cold (sore throat, chills, fever, headache, joint pain, muscle aches, runny nose, nasal congestion, sneezing, cough)"),
+            Medicine(90,"長安風力安感冒液","FUNLIAN SOLUTION C.A.","緩解感冒之各種症狀（發燒、頭痛、咽喉痛、關節痛、肌肉痛、流鼻水、鼻塞、打噴嚏、喀痰）。","Relieves various symptoms of cold (fever, headache, sore throat, joint pain, muscle pain, runny nose, nasal congestion, sneezing, phlegm)."),
+            Medicine(91,"培力服痛風錠50公絲(本補麻隆)","GOUT TABLETS 50MG P.L. (BENZBROMARONE)","痛風、高尿酸血症","Gout, hyperuricemia"),
+            Medicine(92,"安速風達感冒液","Ansu Fengda cold liquid","緩解感冒之各種症狀（流鼻水、鼻塞、打噴涕、咽喉痛、咳嗽、喀痰、畏寒、發燒、頭痛、關節痛、肌肉酸痛）","Relieves various symptoms of cold (runny nose, nasal congestion, sneezing, sore throat, cough, phlegm, chills, fever, headache, joint pain, muscle aches)")
+        )
+        val sql7 = "INSERT INTO Medicines (MedicineID, MedicineName, En_MedicineName, Uses, En_Uses) VALUES (?, ?, ?, ?, ?)"
+        val stmt7 = db.compileStatement(sql7)
+        for (medicine in defaultData7) {
+            stmt7.bindLong(1, medicine.MedicineID.toLong())
+            stmt7.bindString(2, medicine.MedicineName)
+            stmt7.bindString(3, medicine.En_MedicineName)
+            stmt7.bindString(4, medicine.Uses)
+            stmt7.bindString(5, medicine.En_Uses)
+            stmt7.executeInsert()
+            stmt7.clearBindings()
+        }
     }
 
     // 用兩個條件Gender和Side查詢BodyParts的資料表結果
@@ -1397,4 +1516,12 @@ data class SymptomDepartment(
 data class SubPartSymptom(
     val SubPartID: Int,
     val SymptomID: Int
+)
+
+data class Medicine(
+    val MedicineID: Int,
+    val MedicineName: String,
+    val En_MedicineName: String,
+    val Uses: String,
+    val En_Uses: String
 )
