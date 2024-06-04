@@ -54,6 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_field">
@@ -70,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="查詢結果顯示如下："
-                android:textSize="20dp"/>
+                android:textSize="20dp" />
 
             <Button
                 android:id="@+id/button_example"
@@ -81,7 +82,8 @@
                 android:background="@drawable/search_btn_background"
                 android:text="藥物名稱"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <Button
                 android:id="@+id/button_example1"
                 android:layout_width="match_parent"
@@ -91,7 +93,8 @@
                 android:background="@drawable/search_btn_background"
                 android:text="藥物名稱"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <Button
                 android:id="@+id/button_example2"
                 android:layout_width="match_parent"
@@ -101,7 +104,8 @@
                 android:background="@drawable/search_btn_background"
                 android:text="藥物名稱"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <Button
                 android:id="@+id/button_example3"
                 android:layout_width="match_parent"
@@ -111,7 +115,8 @@
                 android:background="@drawable/search_btn_background"
                 android:text="藥物名稱"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <Button
                 android:id="@+id/button_example4"
                 android:layout_width="match_parent"
@@ -121,7 +126,8 @@
                 android:background="@drawable/search_btn_background"
                 android:text="藥物名稱"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <Button
                 android:id="@+id/button_example5"
                 android:layout_width="match_parent"
@@ -131,7 +137,8 @@
                 android:background="@drawable/search_btn_background"
                 android:text="藥物名稱"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <Button
                 android:id="@+id/button_example6"
                 android:layout_width="match_parent"
@@ -141,7 +148,8 @@
                 android:background="@drawable/search_btn_background"
                 android:text="藥物名稱"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <Button
                 android:id="@+id/button_example7"
                 android:layout_width="match_parent"
@@ -151,7 +159,7 @@
                 android:background="@drawable/search_btn_background"
                 android:text="藥物名稱"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>

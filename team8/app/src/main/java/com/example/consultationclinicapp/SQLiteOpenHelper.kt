@@ -4,6 +4,8 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 class SQLiteOpenHelper(
     context: Context,
@@ -1456,6 +1458,37 @@ class SQLiteOpenHelper(
         return departments // 返回包含科別資料的列表
     }
 
+    /**
+     * 根據藥品名稱或英文藥品名進行部分搜尋，回傳匹配的藥品列表。
+     * @param query 搜索關鍵字，可以是藥品名或英文藥品名的一部分。
+     * @return 返回一個包含匹配藥品的列表。
+     */
+    fun searchMedicines(query: String): List<Medicine> {
+        val medicines = mutableListOf<Medicine>() // 儲存查詢到的藥品資訊
+        val db = this.readableDatabase // 獲取可讀的資料庫實例
+
+        // 準備 SQL 查詢語句，使用 LIKE 子句進行部分匹配
+        val selectQuery = """
+        SELECT * FROM Medicines
+        WHERE MedicineName LIKE ? OR En_MedicineName LIKE ?
+    """
+        val cursor = db.rawQuery(selectQuery, arrayOf("%$query%", "%$query%")) // 執行查詢
+
+        // 遍歷查詢結果，為每條記錄創建 Medicine 物件
+        while (cursor.moveToNext()) {
+            val medicine = Medicine(
+                MedicineID = cursor.getInt(cursor.getColumnIndexOrThrow("MedicineID")),
+                MedicineName = cursor.getString(cursor.getColumnIndexOrThrow("MedicineName")),
+                En_MedicineName = cursor.getString(cursor.getColumnIndexOrThrow("En_MedicineName")),
+                Uses = cursor.getString(cursor.getColumnIndexOrThrow("Uses")),
+                En_Uses = cursor.getString(cursor.getColumnIndexOrThrow("En_Uses"))
+            )
+            medicines.add(medicine) // 將 Medicine 物件添加到列表中
+        }
+        cursor.close() // 關閉游標
+        db.close() // 關閉資料庫實例
+        return medicines // 返回包含匹配藥品的列表
+    }
 }
 
 data class BodyPart(
@@ -1492,10 +1525,11 @@ data class SubPartSymptom(
     val SymptomID: Int
 )
 
+@Parcelize
 data class Medicine(
     val MedicineID: Int,
     val MedicineName: String,
     val En_MedicineName: String,
     val Uses: String,
     val En_Uses: String
-)
+) : Parcelable
