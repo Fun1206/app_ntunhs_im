@@ -66,6 +66,7 @@ class search_result : AppCompatActivity() {
     ) {
         if (isEnglish) {
             titleTextView.text = "Medication Details"
+            titleTextView.textSize = 30f
             drugName.text = enMedicineName
             scientificName.text = medicineName
             contentTextView.text = enUses
@@ -73,6 +74,7 @@ class search_result : AppCompatActivity() {
             searchAgainBtn.text = "Continue Inquiry"
         } else {
             titleTextView.text = "藥物詳細資料"
+            titleTextView.textSize = 34f
             drugName.text = medicineName
             scientificName.text = enMedicineName
             contentTextView.text = uses

@@ -39,11 +39,11 @@ class SubParts_input : AppCompatActivity() {
         updateUI(isEnglish, titleTextView, selectTextView, previous, next)
 
         val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
-        val gender = intent.getStringExtra("gender")
+        val type = intent.getStringExtra("type")
 
         // 獲取從前一個Activity傳遞過來的資料
         val bodyPartIDList = intent.getStringArrayListExtra("BodyPartID")
-        addSelectedParts(prefs, gender, bodyPartIDList)
+        addSelectedParts(prefs, type, bodyPartIDList)
 
         bodyPartIDList?.forEach { bodyPartID ->
             val resultList = dbHelper.getBodyPartsByBodyPartID(bodyPartID.toInt())
@@ -55,17 +55,17 @@ class SubParts_input : AppCompatActivity() {
             }
         }
 
-        setupListeners(home, previous, gender, next, container, isEnglish)
+        setupListeners(home, previous, type, next, container, isEnglish)
     }
 
-    private fun addSelectedParts(prefs: SharedPreferences, gender: String?, bodyPartIDList: ArrayList<String>?) {
+    private fun addSelectedParts(prefs: SharedPreferences, type: String?, bodyPartIDList: ArrayList<String>?) {
         // 對 bodyPartIDList 進行擴充
-        val partsMap = if (gender == "male") {
-            mapOf("back" to "12", "waist" to "13", "buttocks" to "14",
-                "chest" to "3", "abdomen" to "4", "lower_abdomen" to "5")
-        } else {
-            mapOf("back" to "34", "waist" to "35", "buttocks" to "36",
-                "chest" to "25", "abdomen" to "26", "lower_abdomen" to "27")
+        val partsMap = when (type) {
+            "MaleFront" -> mapOf("back" to "12", "waist" to "13", "buttocks" to "14")
+            "MaleBack" -> mapOf("chest" to "3", "abdomen" to "4", "lower_abdomen" to "5")
+            "FemaleFront" -> mapOf("back" to "34", "waist" to "35", "buttocks" to "36")
+            "FemaleBack" -> mapOf("chest" to "25", "abdomen" to "26", "lower_abdomen" to "27")
+            else -> emptyMap()
         }
 
         partsMap.forEach { (key, value) ->
@@ -75,10 +75,17 @@ class SubParts_input : AppCompatActivity() {
         }
     }
 
-    private fun setupListeners(home: ImageButton, previous: Button, gender: String?, next: Button, container: LinearLayout ,isEnglish: Boolean) {
+    private fun setupListeners(home: ImageButton, previous: Button, type: String?, next: Button, container: LinearLayout ,isEnglish: Boolean) {
         home.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
         previous.setOnClickListener {
-            startActivity(Intent(this, if (gender == "male") frontbody_male::class.java else frontbody_female::class.java))
+            val activityClass = when (type) {
+                "MaleFront" -> frontbody_male::class.java
+                "MaleBack" -> backbody_male::class.java
+                "FemaleFront" -> frontbody_female::class.java
+                "FemaleBack" -> backbody_female::class.java
+                else -> MainActivity::class.java // Default activity if type is not recognized
+            }
+            startActivity(Intent(this, activityClass))
         }
         next.setOnClickListener {
             // 從LinearLayout容器中檢索所有已勾選的CheckBox的標籤 (即SubPartID)
@@ -115,7 +122,8 @@ class SubParts_input : AppCompatActivity() {
             textSize = 24f
             setTypeface(null, Typeface.BOLD)
             gravity = Gravity.CENTER_HORIZONTAL
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                 setMargins(0, 16.toPx(), 0, 16.toPx())
             }
         }
@@ -127,7 +135,8 @@ class SubParts_input : AppCompatActivity() {
                 textSize = 20f
                 setTypeface(null, Typeface.BOLD)
                 setBackgroundResource(R.drawable.checkbox_background)
-                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                     setMargins(0, 8.toPx(), 0, 8.toPx())
                 }
                 // 設置標籤來儲存SubPartID
@@ -144,12 +153,16 @@ class SubParts_input : AppCompatActivity() {
     ) {
         if (isEnglish) {
             titleTextView.text = "Symptom Analysis"
-            selectTextView.text = "Select detailed parts (multiple choice)"
+            titleTextView.textSize = 30f
+            selectTextView.text = "Select detailed parts\n(multiple choice)"
+            selectTextView.textSize = 20f
             previousBtn.text = "Previous"
             nextBtn.text = "Next"
         } else {
             titleTextView.text = "症狀分析"
+            titleTextView.textSize = 34f
             selectTextView.text = "選擇細節部位（多選）"
+            selectTextView.textSize = 24f
             previousBtn.text = "上一步"
             nextBtn.text = "下一步"
         }

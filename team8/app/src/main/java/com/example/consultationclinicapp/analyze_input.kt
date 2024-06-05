@@ -2,13 +2,23 @@ package com.example.consultationclinicapp
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 
 class analyze_input : AppCompatActivity() {
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var titleTextView: TextView
+    private lateinit var genderTxt: TextView
+    private lateinit var ageTxt: TextView
+    private lateinit var maleRadioButton: RadioButton
+    private lateinit var femaleRadioButton: RadioButton
+    private lateinit var nextButton: Button
+    private lateinit var ageSpinner: Spinner
+
     private val PREFS_NAME = "language_prefs"
     private val KEY_LANGUAGE = "language_key"
 
@@ -16,106 +26,79 @@ class analyze_input : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analyze_input)
 
-        val home = findViewById<ImageButton>(R.id.home_btn)
-        val next = findViewById<Button>(R.id.next_btn)
-        val gender = findViewById<RadioGroup>(R.id.gender)
-        val male = findViewById<RadioButton>(R.id.male)
-        val female = findViewById<RadioButton>(R.id.female)
-        val titleTextView = findViewById<TextView>(R.id.title_textView)
-        val genderTxt = findViewById<TextView>(R.id.gender_txt)
-        val ageTxt = findViewById<TextView>(R.id.age)
-        val spn_age = findViewById<Spinner>(R.id.age_spn)
-
-        // 加載SharedPreferences中的設定值
-        val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val isEnglish = sharedPreferences.getBoolean(KEY_LANGUAGE, false)
-
-        // 根據值更新UI
-        updateUI(isEnglish, titleTextView, genderTxt, ageTxt, male, female, next, spn_age)
-
-        // 清除 SharedPreferences
-        clearPreferences()
-
-        home.setOnClickListener {
-            val homeIntent = Intent(this, MainActivity::class.java)
-            startActivity(homeIntent)
-        }
-
-        next.setOnClickListener {
-            val selectedGenderId = gender.checkedRadioButtonId
-            if (selectedGenderId == -1) {
-                // 顯示提示框
-                AlertDialog.Builder(this)
-                    .setTitle(if (isEnglish) "Alert" else "提示")
-                    .setMessage(if (isEnglish) "Please select a gender option" else "請選擇性別選項")
-                    .setPositiveButton(if (isEnglish) "OK" else "確定", null)
-                    .show()
-            } else {
-                // 根據選中的RadioButton跳轉到不同的Activity
-                val bodyIntent = if (male.isChecked) {
-                    Intent(this, frontbody_male::class.java)
-                } else {
-                    Intent(this, frontbody_female::class.java)
-                }
-                startActivity(bodyIntent)
-            }
-        }
-
-        // 設置 Spinner 的選項選擇監聽器
-        spn_age.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-                if (view != null) {
-                    // 獲取選擇的項目
-                    val age = resources.getStringArray(if (isEnglish) R.array.age_en else R.array.age)[pos]  // 獲取選中的年齡
-                    // 可在此處添加更多基於選中年齡的操作
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // 這裡可以處理沒有選擇任何項目的情況
-            }
-        }
+        initViews()
+        setupListeners()
     }
 
+    private fun initViews() {
+        // 清除 SharedPreferences
+        clearPreferences()
+        titleTextView = findViewById(R.id.title_textView)
+        genderTxt = findViewById(R.id.gender_txt)
+        ageTxt = findViewById(R.id.age)
+        maleRadioButton = findViewById(R.id.male)
+        femaleRadioButton = findViewById(R.id.female)
+        nextButton = findViewById(R.id.next_btn)
+        ageSpinner = findViewById(R.id.age_spn)
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val isEnglish = sharedPreferences.getBoolean(KEY_LANGUAGE, false)
+        updateUI(isEnglish)
+    }
     private fun clearPreferences() {
         val prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         prefs.edit().clear().apply()
     }
-
-    private fun updateUI(
-        isEnglish: Boolean,
-        titleTextView: TextView,
-        genderTxt: TextView,
-        ageTxt: TextView,
-        male: RadioButton,
-        female: RadioButton,
-        next: Button,
-        spn_age: Spinner
-    ) {
-        if (isEnglish) {
-            titleTextView.text = "Symptom Analysis"
-            genderTxt.text = "Gender:"
-            ageTxt.text = "Age:"
-            male.text = "Male"
-            female.text = "Female"
-            female.textSize = 16f
-            male.textSize = 16f
-            next.text = "Next"
-            val adapter = ArrayAdapter.createFromResource(this, R.array.age_en, R.layout.spinner_item)
-            adapter.setDropDownViewResource(R.layout.spinner_item)
-            spn_age.adapter = adapter
-        } else {
-            titleTextView.text = "症狀分析"
-            genderTxt.text = "性別："
-            ageTxt.text = "年齡："
-            male.text = "男"
-            female.text = "女"
-            female.textSize = 20f
-            male.textSize = 20f
-            next.text = "下一步"
-            val adapter = ArrayAdapter.createFromResource(this, R.array.age, R.layout.spinner_item)
-            adapter.setDropDownViewResource(R.layout.spinner_item)
-            spn_age.adapter = adapter
+    private fun setupListeners() {
+        findViewById<ImageButton>(R.id.home_btn).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
         }
+
+        nextButton.setOnClickListener {
+            val selectedGenderId = findViewById<RadioGroup>(R.id.gender).checkedRadioButtonId
+            if (selectedGenderId == -1) {
+                showAlertDialog("Please select a gender option", "請選擇性別選項")
+            } else {
+                val intent =
+                    if (maleRadioButton.isChecked) Intent(this, frontbody_male::class.java)
+                    else Intent(this, frontbody_female::class.java)
+                startActivity(intent)
+            }
+        }
+
+        ageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+                // 選擇年齡後的處理
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    private fun showAlertDialog(englishMessage: String, chineseMessage: String) {
+        AlertDialog.Builder(this)
+            .setTitle(if (sharedPreferences.getBoolean(KEY_LANGUAGE, false)) "Alert" else "提示")
+            .setMessage(if (sharedPreferences.getBoolean(KEY_LANGUAGE, false)) englishMessage else chineseMessage)
+            .setPositiveButton(if (sharedPreferences.getBoolean(KEY_LANGUAGE, false)) "OK" else "確定", null)
+            .show()
+    }
+
+    private fun updateUI(isEnglish: Boolean) {
+        titleTextView.text = getString(if (isEnglish) R.string.analyze_english else R.string.analyze_chinese)
+        genderTxt.text = getString(if (isEnglish) R.string.gender_english else R.string.gender)
+        ageTxt.text = getString(if (isEnglish) R.string.age_english else R.string.age)
+        maleRadioButton.text = getString(if (isEnglish) R.string.male_english else R.string.male)
+        femaleRadioButton.text = getString(if (isEnglish) R.string.female_english else R.string.female)
+        nextButton.text = getString(if (isEnglish) R.string.next_english else R.string.next)
+        setupSpinner(isEnglish)
+    }
+
+    private fun setupSpinner(isEnglish: Boolean) {
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            if (isEnglish) R.array.age_en else R.array.age,
+            R.layout.spinner_item
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        ageSpinner.adapter = adapter
     }
 }

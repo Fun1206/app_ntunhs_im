@@ -54,7 +54,7 @@ class Symptoms_input : AppCompatActivity() {
         }
 
         // 顯示對話框
-        showAlert("選擇的部位與症狀資訊", displayText.toString(), isEnglish)
+        // showAlert("選擇的部位與症狀資訊", displayText.toString(), isEnglish)
 
         // 動態生成checkBOX
         selectedSubPartIDs?.forEachIndexed { index, id ->
@@ -70,7 +70,7 @@ class Symptoms_input : AppCompatActivity() {
             val selectedSymptoms = container.children.filterIsInstance<CheckBox>()
                 .filter { it.isChecked }
                 .joinToString(separator = "\n") {
-                    "${it.text}, SymptomID:${it.tag}"
+                    "${it.text}"
                 }
 
             if (selectedSymptoms.isNotEmpty()) {
@@ -163,13 +163,17 @@ class Symptoms_input : AppCompatActivity() {
     ) {
         if (isEnglish) {
             titleTextView.text = "Symptom Analysis"
-            selectTextView.text = "Select symptoms (multiple choice)"
+            titleTextView.textSize = 30f
+            selectTextView.text = "Select symptoms\n(multiple choice)"
+            selectTextView.textSize = 20f
             previousBtn.text = "Previous"
             nextBtn.text = "Next"
             logBtn.text = "View selected symptoms"
         } else {
             titleTextView.text = "症狀分析"
+            titleTextView.textSize = 34f
             selectTextView.text = "選擇症狀（多選）"
+            selectTextView.textSize = 24f
             previousBtn.text = "上一步"
             nextBtn.text = "下一步"
             logBtn.text = "查看已選擇症狀"

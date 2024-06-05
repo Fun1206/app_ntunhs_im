@@ -2,37 +2,35 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="359.11dp"
+    android:layout_height="766.14dp"
     tools:context=".backbody_female">
 
     <ImageButton
         android:id="@+id/home_btn"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_textView"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/home" />
 
     <TextView
         android:id="@+id/title_textView"
-        android:layout_width="331dp"
-        android:layout_height="78dp"
+        android:layout_width="286dp"
+        android:layout_height="75dp"
         android:background="#D9D9D9"
         android:gravity="center"
         android:text="症狀分析"
         android:textSize="34sp"
         android:textStyle="bold"
         app:autoSizeStepGranularity="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/home_btn"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="411dp"
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,8 +88,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="頭部"
                     android:tag="37"
+                    android:text="頭部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -101,8 +99,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="頸部"
                     android:tag="38"
+                    android:text="頸部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -112,8 +110,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="背部"
                     android:tag="34"
+                    android:text="背部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -123,8 +121,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="腰部"
                     android:tag="35"
+                    android:text="腰部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -134,8 +132,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="臀部"
                     android:tag="36"
+                    android:text="臀部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -145,8 +143,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="腿部"
                     android:tag="43"
+                    android:text="腿部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -156,16 +154,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="足部"
                     android:tag="44"
+                    android:text="足部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/female_back"
-                android:layout_width="243dp"
-                android:layout_height="550dp"
+                android:layout_width="220dp"
+                android:layout_height="475dp"
                 app:srcCompat="@drawable/female_back" />
 
             <LinearLayout
@@ -179,8 +177,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="全身"
                     android:tag="39"
+                    android:text="全身"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -189,8 +187,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="手部"
                     android:tag="42"
+                    android:text="手部"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -199,8 +197,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="皮膚"
                     android:tag="40"
+                    android:text="皮膚"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -209,8 +207,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="心理"
                     android:tag="41"
+                    android:text="心理"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -241,6 +239,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_background"
                 android:text="下一步"
+                android:layout_marginLeft="5dp"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />

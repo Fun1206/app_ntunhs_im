@@ -12,8 +12,8 @@ class SQLiteOpenHelper(
 ): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         private const val DATABASE_NAME = "example.db"
-        // 資料庫版本，當資料筆資料增加需要調整版本號，目前為版本=6
-        private const val DATABASE_VERSION = 6
+        // 資料庫版本，當資料筆資料增加需要調整版本號，目前為版本=7，20240605
+        private const val DATABASE_VERSION = 7
 
         // 建立 BodyParts(身體部位) 表的 SQL 語句
         private const val CREATE_TABLE_BODYPARTS = """
@@ -25,7 +25,6 @@ class SQLiteOpenHelper(
                 Side INTEGER
             )
         """
-
         // 建立 SubParts(部位細節) 表的 SQL 語句
         private const val CREATE_TABLE_SUBPARTS = """
             CREATE TABLE IF NOT EXISTS SubParts (
@@ -36,7 +35,6 @@ class SQLiteOpenHelper(
                 FOREIGN KEY(BodyPartID) REFERENCES BodyParts(BodyPartID)
             )
         """
-
         // 建立 Symptoms(症狀) 表的 SQL 語句
         private const val CREATE_TABLE_SYMPTOMS = """
             CREATE TABLE IF NOT EXISTS Symptoms (
@@ -45,7 +43,6 @@ class SQLiteOpenHelper(
                 En_SymName TEXT
             )
         """
-
         // 建立 SubPartSymptoms(細節部位與症狀關聯) 表的 SQL 語句
         private const val CREATE_TABLE_SUBPARTSYMPTOMS = """
             CREATE TABLE IF NOT EXISTS SubPartSymptoms (
@@ -55,7 +52,6 @@ class SQLiteOpenHelper(
                 FOREIGN KEY(SymptomID) REFERENCES Symptoms(SymptomID)
             )
         """
-
         // 建立 Departments(建議科別) 表的 SQL 語句
         private const val CREATE_TABLE_DEPARTMENTS = """
             CREATE TABLE IF NOT EXISTS Departments (
@@ -75,7 +71,6 @@ class SQLiteOpenHelper(
                 FOREIGN KEY(DepartmentID) REFERENCES Departments(DepartmentID)
             )
         """
-
         // 建立 Medicine (成藥) 表的 SQL 語句
         private const val CREATE_TABLE_MEDICINES = """
             CREATE TABLE IF NOT EXISTS Medicines (
@@ -103,7 +98,7 @@ class SQLiteOpenHelper(
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if(oldVersion < newVersion){
             db.execSQL("DROP TABLE IF EXISTS BodyParts")
-            db.execSQL("DROP TABLE IF EXISTS DetailParts")
+            db.execSQL("DROP TABLE IF EXISTS Medicines")
             db.execSQL("DROP TABLE IF EXISTS SubParts")
             db.execSQL("DROP TABLE IF EXISTS Symptoms")
             db.execSQL("DROP TABLE IF EXISTS SubPartSymptoms")
@@ -419,7 +414,14 @@ class SQLiteOpenHelper(
             Symptom(111,"骨盆疼痛","Pelvic pain"),
             Symptom(112,"站立困難","Difficulty standing"),
             Symptom(113,"排便疼痛","Painful defecation"),
-            Symptom(114,"便血","Rectal bleeding")
+            Symptom(114,"便血","Rectal bleeding"),
+            Symptom(115, "尿道分泌物增多", "Increased urethral discharge"),
+            Symptom(116, "陰道出血", "Vaginal bleeding"),
+            Symptom(117, "經期不規律", "Irregular menstruation"),
+            Symptom(118, "胎動", "Fetal movement"),
+            Symptom(119, "睪丸腫大", "Testicular swelling"),
+            Symptom(120, "射精異常", "Abnormal ejaculation"),
+            Symptom(121, "血尿", "Hematuria")
         )
         val sql3 = "INSERT INTO Symptoms (SymptomID, SymName , En_SymName) VALUES (?, ?, ?)"
         val stmt3 = db.compileStatement(sql3)
@@ -534,130 +536,47 @@ class SQLiteOpenHelper(
             SubPartSymptom(15,100),
             SubPartSymptom(15,101),
             SubPartSymptom(15,102),
-            SubPartSymptom(27,101),
-            SubPartSymptom(29,101),
-            SubPartSymptom(54,101),
-            SubPartSymptom(56,101),
-            SubPartSymptom(85,101),
-            SubPartSymptom(87,101),
-            SubPartSymptom(112,101),
-            SubPartSymptom(114,101),
             SubPartSymptom(16,103),
+            SubPartSymptom(16,119),
+            SubPartSymptom(16,120),
+            SubPartSymptom(16,121),
             SubPartSymptom(17,103),
-            SubPartSymptom(74,103),
-            SubPartSymptom(75,103),
             SubPartSymptom(18,39),
-            SubPartSymptom(22,39),
-            SubPartSymptom(23,39),
-            SubPartSymptom(45,39),
-            SubPartSymptom(49,39),
-            SubPartSymptom(50,39),
-            SubPartSymptom(76,39),
-            SubPartSymptom(80,39),
-            SubPartSymptom(81,39),
-            SubPartSymptom(103,39),
-            SubPartSymptom(107,39),
-            SubPartSymptom(108,39),
             SubPartSymptom(19,93),
             SubPartSymptom(19,104),
+            SubPartSymptom(20,105),
+            SubPartSymptom(21,24),
+            SubPartSymptom(22,39),
+            SubPartSymptom(23,39),
             SubPartSymptom(24,93),
             SubPartSymptom(24,104),
-            SubPartSymptom(46,93),
-            SubPartSymptom(46,104),
-            SubPartSymptom(51,93),
-            SubPartSymptom(51,104),
-            SubPartSymptom(77,93),
-            SubPartSymptom(77,104),
-            SubPartSymptom(82,93),
-            SubPartSymptom(82,104),
-            SubPartSymptom(104,93),
-            SubPartSymptom(104,104),
-            SubPartSymptom(109,93),
-            SubPartSymptom(109,104),
-            SubPartSymptom(20,105),
-            SubPartSymptom(47,105),
-            SubPartSymptom(78,105),
-            SubPartSymptom(105,105),
-            SubPartSymptom(21,24),
-            SubPartSymptom(48,24),
-            SubPartSymptom(79,24),
-            SubPartSymptom(106,24),
             SubPartSymptom(25,106),
             SubPartSymptom(26,20),
-            SubPartSymptom(52,106),
-            SubPartSymptom(53,20),
-            SubPartSymptom(83,106),
-            SubPartSymptom(84,20),
-            SubPartSymptom(110,106),
-            SubPartSymptom(111,20),
+            SubPartSymptom(27,101),
             SubPartSymptom(28,107),
             SubPartSymptom(28,108),
-            SubPartSymptom(55,107),
-            SubPartSymptom(55,108),
-            SubPartSymptom(86,107),
-            SubPartSymptom(86,108),
-            SubPartSymptom(113,107),
-            SubPartSymptom(113,108),
+            SubPartSymptom(29,101),
             SubPartSymptom(29,109),
-            SubPartSymptom(30,109),
-            SubPartSymptom(31,109),
-            SubPartSymptom(56,109),
-            SubPartSymptom(57,109),
-            SubPartSymptom(58,109),
-            SubPartSymptom(87,109),
-            SubPartSymptom(88,109),
-            SubPartSymptom(89,109),
-            SubPartSymptom(114,109),
-            SubPartSymptom(115,109),
-            SubPartSymptom(116,109),
             SubPartSymptom(29,39),
             SubPartSymptom(29,110),
+            SubPartSymptom(30,109),
             SubPartSymptom(30,39),
             SubPartSymptom(30,110),
+            SubPartSymptom(31,109),
             SubPartSymptom(31,39),
             SubPartSymptom(31,110),
-            SubPartSymptom(56,39),
-            SubPartSymptom(56,110),
-            SubPartSymptom(57,39),
-            SubPartSymptom(57,110),
-            SubPartSymptom(58,39),
-            SubPartSymptom(58,110),
-            SubPartSymptom(87,39),
-            SubPartSymptom(87,110),
-            SubPartSymptom(88,39),
-            SubPartSymptom(88,110),
-            SubPartSymptom(89,39),
-            SubPartSymptom(89,110),
-            SubPartSymptom(114,39),
-            SubPartSymptom(114,110),
-            SubPartSymptom(115,39),
-            SubPartSymptom(115,110),
-            SubPartSymptom(116,39),
-            SubPartSymptom(116,110),
             SubPartSymptom(32,39),
             SubPartSymptom(32,71),
             SubPartSymptom(32,110),
             SubPartSymptom(33,39),
             SubPartSymptom(33,71),
             SubPartSymptom(33,110),
-            SubPartSymptom(90,39),
-            SubPartSymptom(90,71),
-            SubPartSymptom(90,110),
-            SubPartSymptom(91,39),
-            SubPartSymptom(91,71),
-            SubPartSymptom(91,110),
             SubPartSymptom(34,111),
             SubPartSymptom(34,112),
-            SubPartSymptom(92,111),
-            SubPartSymptom(92,112),
             SubPartSymptom(35,111),
             SubPartSymptom(35,112),
-            SubPartSymptom(93,111),
-            SubPartSymptom(93,112),
             SubPartSymptom(36,113),
             SubPartSymptom(36,114),
-            SubPartSymptom(94,113),
-            SubPartSymptom(94,114),
             SubPartSymptom(37,1),
             SubPartSymptom(37,2),
             SubPartSymptom(37,3),
@@ -730,6 +649,174 @@ class SQLiteOpenHelper(
             SubPartSymptom(44,71),
             SubPartSymptom(44,72),
             SubPartSymptom(44,73),
+            SubPartSymptom(45,39),
+            SubPartSymptom(46,93),
+            SubPartSymptom(46,104),
+            SubPartSymptom(47,105),
+            SubPartSymptom(48,24),
+            SubPartSymptom(49,39),
+            SubPartSymptom(50,39),
+            SubPartSymptom(51,93),
+            SubPartSymptom(51,104),
+            SubPartSymptom(52,106),
+            SubPartSymptom(53,20),
+            SubPartSymptom(54,101),
+            SubPartSymptom(55,107),
+            SubPartSymptom(55,108),
+            SubPartSymptom(56,101),
+            SubPartSymptom(56,109),
+            SubPartSymptom(56,39),
+            SubPartSymptom(56,110),
+            SubPartSymptom(57,109),
+            SubPartSymptom(57,39),
+            SubPartSymptom(57,110),
+            SubPartSymptom(58,109),
+            SubPartSymptom(58,39),
+            SubPartSymptom(58,110),
+            SubPartSymptom(59,1),
+            SubPartSymptom(59,2),
+            SubPartSymptom(59,3),
+            SubPartSymptom(59,4),
+            SubPartSymptom(59,5),
+            SubPartSymptom(59,6),
+            SubPartSymptom(59,7),
+            SubPartSymptom(59,8),
+            SubPartSymptom(59,9),
+            SubPartSymptom(60,10),
+            SubPartSymptom(60,11),
+            SubPartSymptom(60,12),
+            SubPartSymptom(60,13),
+            SubPartSymptom(60,14),
+            SubPartSymptom(60,15),
+            SubPartSymptom(60,16),
+            SubPartSymptom(60,17),
+            SubPartSymptom(60,18),
+            SubPartSymptom(60,19),
+            SubPartSymptom(61,20),
+            SubPartSymptom(61,21),
+            SubPartSymptom(61,22),
+            SubPartSymptom(61,23),
+            SubPartSymptom(61,24),
+            SubPartSymptom(61,25),
+            SubPartSymptom(61,26),
+            SubPartSymptom(61,27),
+            SubPartSymptom(61,28),
+            SubPartSymptom(61,29),
+            SubPartSymptom(62,30),
+            SubPartSymptom(62,31),
+            SubPartSymptom(62,32),
+            SubPartSymptom(62,33),
+            SubPartSymptom(62,34),
+            SubPartSymptom(62,35),
+            SubPartSymptom(62,36),
+            SubPartSymptom(62,37),
+            SubPartSymptom(62,38),
+            SubPartSymptom(62,39),
+            SubPartSymptom(63,40),
+            SubPartSymptom(63,41),
+            SubPartSymptom(63,42),
+            SubPartSymptom(63,43),
+            SubPartSymptom(63,44),
+            SubPartSymptom(63,45),
+            SubPartSymptom(63,46),
+            SubPartSymptom(63,47),
+            SubPartSymptom(63,48),
+            SubPartSymptom(63,49),
+            SubPartSymptom(64,50),
+            SubPartSymptom(64,51),
+            SubPartSymptom(64,52),
+            SubPartSymptom(64,53),
+            SubPartSymptom(64,54),
+            SubPartSymptom(64,55),
+            SubPartSymptom(64,56),
+            SubPartSymptom(64,57),
+            SubPartSymptom(64,58),
+            SubPartSymptom(64,59),
+            SubPartSymptom(65,60),
+            SubPartSymptom(65,61),
+            SubPartSymptom(65,62),
+            SubPartSymptom(65,63),
+            SubPartSymptom(65,64),
+            SubPartSymptom(65,65),
+            SubPartSymptom(65,66),
+            SubPartSymptom(65,67),
+            SubPartSymptom(65,68),
+            SubPartSymptom(65,69),
+            SubPartSymptom(66,70),
+            SubPartSymptom(66,71),
+            SubPartSymptom(66,72),
+            SubPartSymptom(66,73),
+            SubPartSymptom(67,74),
+            SubPartSymptom(67,75),
+            SubPartSymptom(67,76),
+            SubPartSymptom(67,77),
+            SubPartSymptom(68,78),
+            SubPartSymptom(68,79),
+            SubPartSymptom(68,80),
+            SubPartSymptom(68,81),
+            SubPartSymptom(69,82),
+            SubPartSymptom(69,83),
+            SubPartSymptom(69,84),
+            SubPartSymptom(69,85),
+            SubPartSymptom(70,86),
+            SubPartSymptom(70,87),
+            SubPartSymptom(70,88),
+            SubPartSymptom(70,89),
+            SubPartSymptom(71,90),
+            SubPartSymptom(71,91),
+            SubPartSymptom(71,92),
+            SubPartSymptom(71,93),
+            SubPartSymptom(72,94),
+            SubPartSymptom(72,95),
+            SubPartSymptom(72,96),
+            SubPartSymptom(72,97),
+            SubPartSymptom(73,98),
+            SubPartSymptom(73,99),
+            SubPartSymptom(73,100),
+            SubPartSymptom(73,101),
+            SubPartSymptom(73,102),
+            SubPartSymptom(73,115),
+            SubPartSymptom(74,103),
+            SubPartSymptom(74,116),
+            SubPartSymptom(74,117),
+            SubPartSymptom(74,118),
+            SubPartSymptom(75,103),
+            SubPartSymptom(76,39),
+            SubPartSymptom(77,93),
+            SubPartSymptom(77,104),
+            SubPartSymptom(78,105),
+            SubPartSymptom(79,24),
+            SubPartSymptom(80,39),
+            SubPartSymptom(81,39),
+            SubPartSymptom(82,93),
+            SubPartSymptom(82,104),
+            SubPartSymptom(83,106),
+            SubPartSymptom(84,20),
+            SubPartSymptom(85,101),
+            SubPartSymptom(86,107),
+            SubPartSymptom(86,108),
+            SubPartSymptom(87,101),
+            SubPartSymptom(87,109),
+            SubPartSymptom(87,39),
+            SubPartSymptom(87,110),
+            SubPartSymptom(88,109),
+            SubPartSymptom(88,39),
+            SubPartSymptom(88,110),
+            SubPartSymptom(89,109),
+            SubPartSymptom(89,39),
+            SubPartSymptom(89,110),
+            SubPartSymptom(90,39),
+            SubPartSymptom(90,71),
+            SubPartSymptom(90,110),
+            SubPartSymptom(91,39),
+            SubPartSymptom(91,71),
+            SubPartSymptom(91,110),
+            SubPartSymptom(92,111),
+            SubPartSymptom(92,112),
+            SubPartSymptom(93,111),
+            SubPartSymptom(93,112),
+            SubPartSymptom(94,113),
+            SubPartSymptom(94,114),
             SubPartSymptom(95,1),
             SubPartSymptom(95,2),
             SubPartSymptom(95,3),
@@ -802,7 +889,31 @@ class SQLiteOpenHelper(
             SubPartSymptom(102,70),
             SubPartSymptom(102,71),
             SubPartSymptom(102,72),
-            SubPartSymptom(102,73)
+            SubPartSymptom(102,73),
+            SubPartSymptom(103,39),
+            SubPartSymptom(104,93),
+            SubPartSymptom(104,104),
+            SubPartSymptom(105,105),
+            SubPartSymptom(106,24),
+            SubPartSymptom(107,39),
+            SubPartSymptom(108,39),
+            SubPartSymptom(109,93),
+            SubPartSymptom(109,104),
+            SubPartSymptom(110,106),
+            SubPartSymptom(111,20),
+            SubPartSymptom(112,101),
+            SubPartSymptom(113,107),
+            SubPartSymptom(113,108),
+            SubPartSymptom(114,101),
+            SubPartSymptom(114,109),
+            SubPartSymptom(114,39),
+            SubPartSymptom(114,110),
+            SubPartSymptom(115,109),
+            SubPartSymptom(115,39),
+            SubPartSymptom(115,110),
+            SubPartSymptom(116,109),
+            SubPartSymptom(116,39),
+            SubPartSymptom(116,110)
         )
         val sql4 = "INSERT INTO SubPartSymptoms (SubPartID, SymptomID) VALUES (?, ?)"
         val stmt4 = db.compileStatement(sql4)
@@ -1226,7 +1337,22 @@ class SQLiteOpenHelper(
             SymptomDepartment(113,1),
             SymptomDepartment(113,31),
             SymptomDepartment(114,1),
-            SymptomDepartment(114,31)
+            SymptomDepartment(114,31),
+            SymptomDepartment(115,8),
+            SymptomDepartment(115,7),
+            SymptomDepartment(115,25),
+            SymptomDepartment(115,32),
+            SymptomDepartment(116,1),
+            SymptomDepartment(117,32),
+            SymptomDepartment(117,18),
+            SymptomDepartment(118,1),
+            SymptomDepartment(118,32),
+            SymptomDepartment(119,25),
+            SymptomDepartment(119,8),
+            SymptomDepartment(119,18),
+            SymptomDepartment(119,20),
+            SymptomDepartment(120,25),
+            SymptomDepartment(121,25)
         )
         val sql6 = "INSERT INTO SymptomDepartments (SymptomID, DepartmentID) VALUES (?, ?)"
         val stmt6 = db.compileStatement(sql6)
@@ -1344,7 +1470,11 @@ class SQLiteOpenHelper(
             stmt7.clearBindings()
         }
     }
-    // 使用BodyPartID查詢BodyParts的資料表結果
+    /**
+     * 使用BodyPartID查詢BodyParts的資料表結果
+     * @param BodyPartID 主體部位的唯一識別ID。
+     * @return 返回一個包含所有匹配的身體部位的列表。
+     */
     fun getBodyPartsByBodyPartID(BodyPartID: Int): List<BodyPart> {
         val db = this.readableDatabase
         val selection = "BodyPartID = ?"
@@ -1358,7 +1488,6 @@ class SQLiteOpenHelper(
             null,             // having
             null              // orderBy
         )
-
         val parts = mutableListOf<BodyPart>()
         with(cursor) {
             while (moveToNext()) {
@@ -1374,8 +1503,11 @@ class SQLiteOpenHelper(
         db.close()
         return parts
     }
-
-    // 用條件BodyPartID查詢SubParts的資料表結果
+    /**
+     * 使用BodyPartID查詢SubParts的資料表結果
+     * @param BodyPartID 主體部位的唯一識別ID。
+     * @return 返回一個列表，包含所有匹配的細節部位資訊。
+     */
     fun getSubPartsByPartId(BodyPartID: Int): List<SubPart> {
         val db = this.readableDatabase
         val cursor = db.query(
@@ -1457,7 +1589,6 @@ class SQLiteOpenHelper(
         db.close() // 關閉資料庫實例
         return departments // 返回包含科別資料的列表
     }
-
     /**
      * 根據藥品名稱或英文藥品名進行部分搜尋，回傳匹配的藥品列表。
      * @param query 搜索關鍵字，可以是藥品名或英文藥品名的一部分。
@@ -1471,7 +1602,7 @@ class SQLiteOpenHelper(
         val selectQuery = """
         SELECT * FROM Medicines
         WHERE MedicineName LIKE ? OR En_MedicineName LIKE ?
-    """
+        """
         val cursor = db.rawQuery(selectQuery, arrayOf("%$query%", "%$query%")) // 執行查詢
 
         // 遍歷查詢結果，為每條記錄創建 Medicine 物件
@@ -1524,12 +1655,10 @@ data class SubPartSymptom(
     val SubPartID: Int,
     val SymptomID: Int
 )
-
-@Parcelize
 data class Medicine(
     val MedicineID: Int,
     val MedicineName: String,
     val En_MedicineName: String,
     val Uses: String,
     val En_Uses: String
-) : Parcelable
+)

@@ -72,9 +72,11 @@
             <ImageView
                 android:id="@+id/drug_image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:scaleType="centerCrop"/>
+                android:adjustViewBounds="true"
+                android:background="@drawable/checkbox_background"
+                android:scaleType="fitCenter" />
             <!--android:src="@drawable/111"--> <!-- 替換為實際的藥物圖片 -->
 
             <!-- Drug Description -->

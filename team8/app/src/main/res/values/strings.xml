@@ -4,7 +4,7 @@
         <item>0~9歲</item>
         <item>10~24歲</item>
         <item>25~49歲</item>
-        <item>50~64</item>
+        <item>50~64歲</item>
         <item>65歲以上</item>
     </string-array>
     <string-array name="age_en">
@@ -14,4 +14,21 @@
         <item>50-64 years</item>
         <item>65 years and above</item>
     </string-array>
+    <string name="language_english">English</string>
+    <string name="language_chinese">中文</string>
+    <string name="analyze_english">Symptom Analysis</string>
+    <string name="analyze_chinese">症狀分析</string>
+    <string name="search_english">Drug Inquiry</string>
+    <string name="search_chinese">查詢藥物</string>
+
+    <string name="gender_english">Gender:</string>
+    <string name="gender">性別：</string>
+    <string name="age_english">Age:</string>
+    <string name="age">年齡：</string>
+    <string name="male_english">Male</string>
+    <string name="male">男</string>
+    <string name="female_english">Female</string>
+    <string name="female">女</string>
+    <string name="next_english">Next</string>
+    <string name="next">下一步</string>
 </resources>

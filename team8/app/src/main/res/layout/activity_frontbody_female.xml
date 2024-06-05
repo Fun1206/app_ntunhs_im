@@ -2,37 +2,34 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="359.81dp"
+    android:layout_height="766.14dp"
     tools:context=".frontbody_female">
 
     <ImageButton
         android:id="@+id/home_btn"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_textView"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/home" />
 
     <TextView
         android:id="@+id/title_textView"
-        android:layout_width="331dp"
-        android:layout_height="78dp"
+        android:layout_width="286dp"
+        android:layout_height="75dp"
         android:background="#D9D9D9"
         android:gravity="center"
         android:text="症狀分析"
         android:textSize="34sp"
         android:textStyle="bold"
         app:autoSizeStepGranularity="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/home_btn"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="411dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,9 +86,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="頭部"
                     android:tag="23"
-                    android:textSize="16sp"
+                    android:text="頭部"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <CheckBox
@@ -100,9 +97,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="頸部"
                     android:tag="24"
-                    android:textSize="16sp"
+                    android:text="頸部"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <CheckBox
@@ -111,9 +108,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="胸部"
                     android:tag="25"
-                    android:textSize="16sp"
+                    android:text="胸部"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <CheckBox
@@ -122,9 +119,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="腹部"
                     android:tag="26"
-                    android:textSize="16sp"
+                    android:text="腹部"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <CheckBox
@@ -133,9 +130,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="下腹部"
                     android:tag="27"
-                    android:textSize="16sp"
+                    android:text="下腹部"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <CheckBox
@@ -144,9 +141,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="腿部"
                     android:tag="32"
-                    android:textSize="16sp"
+                    android:text="腿部"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <CheckBox
@@ -155,16 +152,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="足部"
                     android:tag="33"
-                    android:textSize="16sp"
+                    android:text="足部"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/female_front"
-                android:layout_width="243dp"
-                android:layout_height="550dp"
+                android:layout_width="220dp"
+                android:layout_height="475dp"
                 app:srcCompat="@drawable/female_front" />
 
             <LinearLayout
@@ -178,9 +175,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="全身"
                     android:tag="28"
-                    android:textSize="16sp"
+                    android:text="全身"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <CheckBox
@@ -188,9 +185,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="手部"
                     android:tag="31"
-                    android:textSize="16sp"
+                    android:text="手部"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <CheckBox
@@ -198,9 +195,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="皮膚"
                     android:tag="29"
-                    android:textSize="16sp"
+                    android:text="皮膚"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <CheckBox
@@ -208,9 +205,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="心理"
                     android:tag="30"
-                    android:textSize="16sp"
+                    android:text="心理"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -237,6 +234,7 @@
                 android:id="@+id/next2_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_background"
                 android:text="下一步"

@@ -99,7 +99,7 @@ class frontbody_male : AppCompatActivity() {
                 val selectedTags = checkBoxes.filter { it.isChecked }.map { it.tag.toString() }
                 val inputSymIntent = Intent(this, SubParts_input::class.java).apply {
                     putExtra("BodyPartID", ArrayList(selectedTags))
-                    putExtra("gender", "male")
+                    putExtra("type", "MaleFront")
                 }
                 startActivity(inputSymIntent)
             } else {
@@ -126,7 +126,9 @@ class frontbody_male : AppCompatActivity() {
     ) {
         if (isEnglish) {
             titleTextView.text = "Symptom Analysis"
+            titleTextView.textSize = 30f
             selectTextView.text = "Select the uncomfortable body part"
+            selectTextView.textSize = 20f
             frontBtn.text = "Front"
             backBtn.text = "Back"
             previousBtn.text = "Previous"
@@ -135,11 +137,14 @@ class frontbody_male : AppCompatActivity() {
                 val resultList = dbHelper.getBodyPartsByBodyPartID(checkBox.tag.toString().toInt())
                 if (resultList.isNotEmpty()) {
                     checkBox.text = resultList[0].En_PartName
+                    checkBox.textSize = 12f
                 }
             }
         } else {
             titleTextView.text = "症狀分析"
+            titleTextView.textSize = 34f
             selectTextView.text = "選擇不舒服的身體部位"
+            selectTextView.textSize = 24f
             frontBtn.text = "前面"
             backBtn.text = "後面"
             previousBtn.text = "上一步"
@@ -148,6 +153,7 @@ class frontbody_male : AppCompatActivity() {
                 val resultList = dbHelper.getBodyPartsByBodyPartID(checkBox.tag.toString().toInt())
                 if (resultList.isNotEmpty()) {
                     checkBox.text = resultList[0].PartName
+                    checkBox.textSize = 14f
                 }
             }
         }

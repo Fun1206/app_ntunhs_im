@@ -52,7 +52,6 @@ class search_drugs : AppCompatActivity() {
 
     private fun displayMedicines(medicines: List<Medicine>, container: LinearLayout, isEnglish: Boolean) {
         val context = container.context
-
         // 創建並配置 TextView 顯示標題
         val headerTextView = TextView(context).apply {
             layoutParams = LinearLayout.LayoutParams(
@@ -63,7 +62,6 @@ class search_drugs : AppCompatActivity() {
             setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20f)
         }
         container.addView(headerTextView) // 添加標題到容器
-
         // 為每個藥品生成一個按鈕
         medicines.forEach { medicine ->
             val button = Button(context).apply {
@@ -105,9 +103,11 @@ class search_drugs : AppCompatActivity() {
     ) {
         if (isEnglish) {
             titleTextView.text = "Drug Inquiry"
+            titleTextView.textSize = 30f
             keyword.hint = "Enter drug name"
         } else {
             titleTextView.text = "藥物查詢"
+            titleTextView.textSize = 34f
             keyword.hint = "輸入藥物名稱"
         }
     }

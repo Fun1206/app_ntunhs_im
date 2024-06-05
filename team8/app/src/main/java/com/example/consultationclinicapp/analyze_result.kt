@@ -29,8 +29,6 @@ class analyze_result : AppCompatActivity() {
         val googlemap = findViewById<Button>(R.id.googlemap_btn)
         val titleTextView = findViewById<TextView>(R.id.title_textView)
         val selectTextView = findViewById<TextView>(R.id.textView4)
-        // 從Intent中接收症狀ID列表
-        val selectedSymptomIDs = intent.getIntegerArrayListExtra("selectedSymptomIDs") ?: arrayListOf()
 
         val container = findViewById<LinearLayout>(R.id.textviewContainer)
         container.removeAllViews()
@@ -39,13 +37,22 @@ class analyze_result : AppCompatActivity() {
         // 根據值更新UI
         updateUI(isEnglish, titleTextView, selectTextView, previous, googlemap)
 
+        // 從Intent中接收症狀ID列表
+        val selectedSymptomIDs = intent.getIntegerArrayListExtra("selectedSymptomIDs") ?: arrayListOf()
+
         // 處理接收到的症狀ID
         if (selectedSymptomIDs.isNotEmpty()) {
+            val displayedDepartmentIds = mutableSetOf<Int>() // 用來記錄已經顯示過的科別ID
             // 如果列表不為空，為每個ID查詢對應的科別資訊
             selectedSymptomIDs.forEach { symptomId ->
                 val departments = dbHelper.getDepartmentsBySymptom(symptomId)
+                // 過濾出尚未顯示的科別
+                val filteredDepartments = departments.filter { department ->
+                    // 檢查科別ID是否已經顯示過，如果沒有，加入集合並返回true，表示需要顯示此科別
+                    displayedDepartmentIds.add(department.DepartmentID)
+                }
                 // 這裡可以對查詢到的科別資訊進行顯示或其他處理
-                displayDepartments(departments, container, isEnglish)
+                displayDepartments(filteredDepartments, container, isEnglish)
             }
         }
 
@@ -73,7 +80,6 @@ class analyze_result : AppCompatActivity() {
                     val margin = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, context.resources.displayMetrics).toInt()
                     setMargins(margin, margin, margin, margin)
                 }
-
                 val linearLayout = LinearLayout(context).apply {
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -93,7 +99,6 @@ class analyze_result : AppCompatActivity() {
                         setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
                         setTypeface(typeface, Typeface.BOLD)
                     }
-
                     val contentTextView = TextView(context).apply {
                         layoutParams = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -110,7 +115,6 @@ class analyze_result : AppCompatActivity() {
 
                 addView(linearLayout)
             }
-
             container.addView(cardView)
         }
     }
@@ -124,14 +128,16 @@ class analyze_result : AppCompatActivity() {
     ) {
         if (isEnglish) {
             titleTextView.text = "Symptom Analysis"
+            titleTextView.textSize = 30f
             selectTextView.text = "Analyze results"
             previousBtn.text = "Previous"
-            googleMapBtn.text = "Google Map: Link to Google Maps"
+            googleMapBtn.text = "Link to Google Maps"
         } else {
             titleTextView.text = "症狀分析"
+            titleTextView.textSize = 34f
             selectTextView.text = "分析結果"
             previousBtn.text = "上一步"
-            googleMapBtn.text = "Google 地圖：鏈接到Google地圖"
+            googleMapBtn.text = "連結至Google Map"
         }
     }
 }
